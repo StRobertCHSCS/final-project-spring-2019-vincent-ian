@@ -18,11 +18,20 @@ You've already done some work to familiarize yourself with Python Arcade, howeve
 Now that you've reviewed what's possible with Python Arcade, it's time to brainstorm what you want your game to be about.   Discuss this with your partner and write down your ideas.  Think about: 
 * what is the player's objective
 * what type of game is it - Shooter? Platformer (Think Mario)? Overhead map explorer (think Zelda)?
+* user control (keypad, controller, mouse)
 * single player, multiplayer (turn based, co-operative, 1v1?)
 * how is the player's project being tracked (score, checkpoints, lives)
 * aesthetics - what images, sounds, characters are you looking to incorporate.
 
-### Step 3 - Once 
+
+### Step 3 - Game Backlog Draft
+Document all the features that you want your game to have in a backlog in a Google Doc(for now).  This will be the guiding list of to-dos for your project.
+
+
+### Step 4 - Project Kanban
+Create a Kanban board for the project using the *Project* feature in your github repository.  A demo will be provided for this.
+
+
 
 
 
