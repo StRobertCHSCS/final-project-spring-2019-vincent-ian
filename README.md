@@ -19,7 +19,10 @@ Now that you've reviewed what's possible with Python Arcade, it's time to brains
 * what is the player's objective
 * what type of game is it - Shooter? Platformer (Think Mario)? Overhead map explorer (think Zelda)?
 * single player, multiplayer (turn based, co-operative, 1v1?)
-* 
+* how is the player's project being tracked (score, checkpoints, lives)
+* aesthetics - what images, sounds, characters are you looking to incorporate.
+
+### Step 3 - Once 
 
 
 
