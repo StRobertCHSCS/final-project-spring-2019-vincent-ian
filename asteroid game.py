@@ -33,7 +33,7 @@ class ASTEROID(arcade.Sprite):
 class MyGame(arcade.Window):
 
     def __init__(self):
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Lab_08 - Sprites")
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Asteroid Game")
 
         self.game_level = 1
 
