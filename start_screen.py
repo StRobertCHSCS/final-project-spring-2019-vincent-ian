@@ -4,17 +4,6 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
 
-class Text:
-    def __init__(self, text, x_pos, y_pos, size):
-        self.text = text
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.size = size
-
-    def draw_text(self):
-        arcade.draw_text(self.text, self.x_pos, self.y_pos, arcade.color.BLACK, self.size)
-
-
 class MyGame(arcade.Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Start Screen")
@@ -26,6 +15,16 @@ class MyGame(arcade.Window):
         arcade.start_render()
 
         arcade.draw_rectangle_filled(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE)
+
+        # Title
+        arcade.draw_text("Asteroid Shooter", 250, 500, arcade.color.BLACK, 30)
+
+        # Play button
+        arcade.draw_rectangle_outline(400, 210, 100, 50, arcade.color.BLACK)
+        arcade.draw_text("Play", 370, 200, arcade.color.BLACK, 20)
+        # Instructions button
+        arcade.draw_rectangle_outline(400, 150, 200, 50, arcade.color.BLACK)
+        arcade.draw_text("Instructions", 320, 140, arcade.color.BLACK, 20)
 
 
 def main():
