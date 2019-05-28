@@ -37,6 +37,7 @@ class ShipSprite(arcade.Sprite):
         self.center_x = 0
         self.center_y = 0
         self.speed = 0
+        self.lives = 3
 
     def update(self):
 
@@ -228,8 +229,27 @@ class MyGame(arcade.Window):
 
         if self.game_level == 1:
             self.level_1_asteroid_list.update()
+
+            # Check if player has hit sushi
+            level_1_asteroid_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
+                                                                             self.level_1_asteroid_list)
+            for asteroid in level_1_asteroid_hit_list:
+                asteroid.kill()
+                self.player_sprite.lives -= 1
+            if len(level_1_asteroid_hit_list) == 5:
+                self.game_level = 2
+
         elif self.game_level == 2:
             self.level_2_asteroid_list.update()
+
+            # Check if player has hit sushi
+            level_2_asteroid_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
+                                                                             self.level_1_asteroid_list)
+            for asteroid in level_2_asteroid_hit_list:
+                asteroid.kill()
+            if len(level_2_asteroid_hit_list) == 0:
+                self.game_level = 3
+
         elif self.game_level == 3:
             self.level_3_asteroid_list.update()
         elif self.game_level == 4:
