@@ -51,13 +51,13 @@ class MyGame(arcade.Window):
         self.set_mouse_visible(False)
 
     def setup(self):
-        self.background = arcade.load_texture("space.jpg")
+        self.background = arcade.load_texture("images/space.jpg")
 
         # Create level 1 sprite list
         self.level_1_asteroid_list = arcade.SpriteList()
 
         for i in range(LEVEL_1_ASTEROID_COUNT):
-            asteroid = ASTEROID("asteroid.png", SPRITE_SCALING_ASTEROID)
+            asteroid = ASTEROID("images/asteroid.png", SPRITE_SCALING_ASTEROID)
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
@@ -70,7 +70,7 @@ class MyGame(arcade.Window):
         self.level_2_asteroid_list = arcade.SpriteList()
 
         for i in range(LEVEL_2_ASTEROID_COUNT):
-            asteroid = ASTEROID("asteroid.png", SPRITE_SCALING_ASTEROID)
+            asteroid = ASTEROID("images/asteroid.png", SPRITE_SCALING_ASTEROID)
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
@@ -83,7 +83,7 @@ class MyGame(arcade.Window):
         self.level_3_asteroid_list = arcade.SpriteList()
 
         for i in range(LEVEL_3_ASTEROID_COUNT):
-            asteroid = ASTEROID("asteroid.png", SPRITE_SCALING_ASTEROID)
+            asteroid = ASTEROID("images/asteroid.png", SPRITE_SCALING_ASTEROID)
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
@@ -96,7 +96,7 @@ class MyGame(arcade.Window):
         self.level_4_asteroid_list = arcade.SpriteList()
 
         for i in range(LEVEL_4_ASTEROID_COUNT):
-            asteroid = ASTEROID("asteroid.png", SPRITE_SCALING_ASTEROID)
+            asteroid = ASTEROID("images/asteroid.png", SPRITE_SCALING_ASTEROID)
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
@@ -109,7 +109,7 @@ class MyGame(arcade.Window):
         self.level_5_asteroid_list = arcade.SpriteList()
 
         for i in range(LEVEL_5_ASTEROID_COUNT):
-            asteroid = ASTEROID("asteroid.png", SPRITE_SCALING_ASTEROID)
+            asteroid = ASTEROID("images/asteroid.png", SPRITE_SCALING_ASTEROID)
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)

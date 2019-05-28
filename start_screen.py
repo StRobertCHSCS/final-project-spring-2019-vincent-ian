@@ -34,6 +34,10 @@ class MyGame(arcade.Window):
         if x >= 350 and x <= 450 and y >= 185 and y <= 235:
             print("play")
 
+        if x >= 300 and x <= 500 and y >= 125 and y <= 175:
+            print("Instructions")
+
+
 def main():
     window = MyGame()
     # window.setup()
