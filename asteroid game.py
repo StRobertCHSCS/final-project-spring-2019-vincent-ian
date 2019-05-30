@@ -40,6 +40,8 @@ class ShipSprite(arcade.Sprite):
         self.center_x = 0
         self.center_y = 0
         self.speed = 0
+        self.lives = 3
+        self.score = 0
 
     def update(self):
 
@@ -184,6 +186,7 @@ class MyGame(arcade.Window):
     def on_draw(self):
         arcade.start_render()
 
+        # Start Screen
         arcade.draw_rectangle_filled(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
                                      arcade.color.WHITE)
 
@@ -198,6 +201,7 @@ class MyGame(arcade.Window):
         arcade.draw_rectangle_outline(400, 150, 200, 50, arcade.color.BLACK)
         arcade.draw_text("Instructions", 320, 140, arcade.color.BLACK, self.instructions_size)
 
+        # Game Run
         if self.start:
             arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
             self.player_list.draw()
@@ -214,6 +218,18 @@ class MyGame(arcade.Window):
                 self.level_4_asteroid_list.draw()
             elif self.game_level == 5:
                 self.level_5_asteroid_list.draw()
+
+        score = f"Score: {self.player_sprite.score}"
+        arcade.draw_text(score, 10, 20, arcade.color.WHITE, 14)
+
+        life = f"Lives: {self.player_sprite.lives}"
+        arcade.draw_text(life, 10, 40, arcade.color.WHITE, 14)
+
+        # Game Over Screen
+        if self.player_sprite.lives == 0:
+            arcade.draw_rectangle_filled(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE)
+            arcade.draw_text("Game Over", 300, 500, arcade.color.BLACK, 30)
+            arcade.draw_text("Score: " + str(self.player_sprite.score), 300, 700, arcade.color.BLACK, 30)
 
     def on_key_press(self, key, modifiers):
         # User Control with arrow keys
@@ -258,6 +274,23 @@ class MyGame(arcade.Window):
             self.level_4_asteroid_list.update()
         elif self.game_level == 5:
             self.level_5_asteroid_list.update()
+
+        for good in self.bullet_list:
+            good_hit = arcade.check_for_collision_with_list(good, self.level_1_asteroid_list)
+            for asteroids in good_hit:
+                asteroids.kill()
+                self.player_sprite.score += 50
+
+        bad_hit = arcade.check_for_collision_with_list(self.player_sprite, self.level_1_asteroid_list)
+        for bad in bad_hit:
+            bad.kill()
+            self.player_sprite.lives -= 1
+
+        for bad in self.level_1_asteroid_list:
+            collisions_bad = arcade.check_for_collision_with_list(bad, self.level_1_asteroid_list)
+            for collides_bad in collisions_bad:
+                bad.top = collides_bad.bottom
+                bad.bottom = collides_bad.top
 
 
 def main():
