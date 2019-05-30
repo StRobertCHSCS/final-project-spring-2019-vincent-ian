@@ -28,6 +28,9 @@ class Bullets(arcade.Sprite):
         self.angle = math.degrees(math.atan2(self.change_y, self.change_x))
         super().update()
 
+        if self.center_x > 800 or self.center_x < 0 or self.center_y > 600 or self.center_y < 0:
+            self.kill()
+
 
 class ShipSprite(arcade.Sprite):
 
@@ -85,6 +88,11 @@ class MyGame(arcade.Window):
         self.player_sprite = None
         self.bullet_list = None
         self.bullet_sprite = None
+        self.play_size = 20
+        self.instructions_size = 20
+
+        self.start = False
+        self.background = arcade.load_texture("images/space.jpg")
 
         self.game_level = 1
 
@@ -97,6 +105,7 @@ class MyGame(arcade.Window):
 
         # Set up background information
         self.background = None
+        self.background = arcade.load_texture("images/space.jpg")
 
     def setup(self):
         self.player_list = arcade.SpriteList()
@@ -106,8 +115,6 @@ class MyGame(arcade.Window):
         self.player_list.append(self.player_sprite)
 
         self.bullet_list = arcade.SpriteList()
-
-        self.background = arcade.load_texture("images/space.jpg")
 
         # Create level 1 sprite list
         self.level_1_asteroid_list = arcade.SpriteList()
@@ -177,28 +184,43 @@ class MyGame(arcade.Window):
     def on_draw(self):
         arcade.start_render()
 
-        # Draw background
-        arcade.draw_texture_rectangle(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
+        arcade.draw_rectangle_filled(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
+                                     arcade.color.WHITE)
 
-        self.player_list.draw()
-        self.bullet_list.draw()
+        # Title
+        arcade.draw_text("Asteroid Shooter", 250, 500, arcade.color.BLACK, 30)
 
-        # Draw asteroids
-        if self.game_level == 1:
-            self.level_1_asteroid_list.draw()
-        elif self.game_level == 2:
-            self.level_2_asteroid_list.draw()
-        elif self.game_level == 3:
-            self.level_3_asteroid_list.draw()
-        elif self.game_level == 4:
-            self.level_4_asteroid_list.draw()
-        elif self.game_level == 5:
-            self.level_5_asteroid_list.draw()
+        # Play button
+        arcade.draw_rectangle_outline(400, 210, 250, 50, arcade.color.BLACK)
+        arcade.draw_text("Press SPACE to start", 300, 200, arcade.color.BLACK, self.play_size)
+
+        # Instructions button
+        arcade.draw_rectangle_outline(400, 150, 200, 50, arcade.color.BLACK)
+        arcade.draw_text("Instructions", 320, 140, arcade.color.BLACK, self.instructions_size)
+
+        if self.start:
+            arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
+            self.player_list.draw()
+            self.bullet_list.draw()
+
+            # Draw asteroids
+            if self.game_level == 1:
+                self.level_1_asteroid_list.draw()
+            elif self.game_level == 2:
+                self.level_2_asteroid_list.draw()
+            elif self.game_level == 3:
+                self.level_3_asteroid_list.draw()
+            elif self.game_level == 4:
+                self.level_4_asteroid_list.draw()
+            elif self.game_level == 5:
+                self.level_5_asteroid_list.draw()
 
     def on_key_press(self, key, modifiers):
         # User Control with arrow keys
 
-        if key == arcade.key.SPACE:
+        if key == arcade.key.SPACE and not self.start:
+            self.start = True
+        elif key == arcade.key.SPACE and self.start:
             self.bullet_sprite = Bullets(r'images/lazer.png', 0.25)
             self.bullet_sprite.center_x = self.player_sprite.center_x
             self.bullet_sprite.center_y = self.player_sprite.center_y
