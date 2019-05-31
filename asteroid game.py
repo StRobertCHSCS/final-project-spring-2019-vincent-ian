@@ -191,19 +191,23 @@ class MyGame(arcade.Window):
                                      arcade.color.WHITE)
 
         # Title
-        arcade.draw_text("Asteroid Shooter", 250, 500, arcade.color.BLACK, 30)
+        arcade.draw_text("Asteroid Shooter", 400, 500, arcade.color.BLACK, 30,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
 
         # Play button
-        arcade.draw_rectangle_outline(400, 210, 250, 50, arcade.color.BLACK)
-        arcade.draw_text("Press SPACE to start", 300, 200, arcade.color.BLACK, self.play_size)
+        arcade.draw_rectangle_outline(400, 200, 250, 50, arcade.color.BLACK)
+        arcade.draw_text("Press SPACE to start", 400, 200, arcade.color.BLACK, self.play_size,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
 
         # Instructions button
-        arcade.draw_rectangle_outline(400, 150, 200, 50, arcade.color.BLACK)
-        arcade.draw_text("Instructions", 320, 140, arcade.color.BLACK, self.instructions_size)
+        arcade.draw_rectangle_outline(400, 140, 200, 50, arcade.color.BLACK)
+        arcade.draw_text("Instructions", 400, 140, arcade.color.BLACK, self.instructions_size,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
 
         # Game Run
         if self.start:
-            arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
+            arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
+                                          self.background)
             self.player_list.draw()
             self.bullet_list.draw()
 
@@ -220,16 +224,21 @@ class MyGame(arcade.Window):
                 self.level_5_asteroid_list.draw()
 
         score = f"Score: {self.player_sprite.score}"
-        arcade.draw_text(score, 10, 20, arcade.color.WHITE, 14)
+        arcade.draw_text(score, 10, 20, arcade.color.WHITE, 14,
+                         width=300, align="left", anchor_x="left", anchor_y="center")
 
         life = f"Lives: {self.player_sprite.lives}"
-        arcade.draw_text(life, 10, 40, arcade.color.WHITE, 14)
+        arcade.draw_text(life, 10, 40, arcade.color.WHITE, 14,
+                         width=300, align="left", anchor_x="left", anchor_y="center")
 
         # Game Over Screen
         if self.player_sprite.lives == 0:
-            arcade.draw_rectangle_filled(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE)
-            arcade.draw_text("Game Over", 300, 500, arcade.color.BLACK, 30)
-            arcade.draw_text("Score: " + str(self.player_sprite.score), 300, 700, arcade.color.BLACK, 30)
+            arcade.draw_rectangle_filled(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
+                                         arcade.color.WHITE)
+            arcade.draw_text("Game Over", 400, 500, arcade.color.BLACK, 30,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
+            arcade.draw_text("Score: " + str(self.player_sprite.score), 400, 300, arcade.color.BLACK, 30,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
 
     def on_key_press(self, key, modifiers):
         # User Control with arrow keys
