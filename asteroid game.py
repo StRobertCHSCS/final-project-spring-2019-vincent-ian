@@ -226,10 +226,9 @@ class MyGame(arcade.Window):
         arcade.draw_text(life, 10, 40, arcade.color.WHITE, 14)
 
         # Game Over Screen
-        if self.player_sprite.lives == 0:
+        if self.player_sprite.lives == 0 or len(self.level_1_asteroid_list) == 0:
             arcade.draw_rectangle_filled(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE)
             arcade.draw_text("Game Over", 300, 500, arcade.color.BLACK, 30)
-            arcade.draw_text("Score: " + str(self.player_sprite.score), 300, 700, arcade.color.BLACK, 30)
 
     def on_key_press(self, key, modifiers):
         # User Control with arrow keys
