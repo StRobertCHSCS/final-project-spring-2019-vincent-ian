@@ -223,13 +223,13 @@ class MyGame(arcade.Window):
             elif self.game_level == 5:
                 self.level_5_asteroid_list.draw()
 
-        score = f"Score: {self.player_sprite.score}"
-        arcade.draw_text(score, 10, 20, arcade.color.WHITE, 14,
-                         width=300, align="left", anchor_x="left", anchor_y="center")
+            score = f"Score: {self.player_sprite.score}"
+            arcade.draw_text(score, 10, 20, arcade.color.WHITE, 14,
+                             width=300, align="left", anchor_x="left", anchor_y="center")
 
-        life = f"Lives: {self.player_sprite.lives}"
-        arcade.draw_text(life, 10, 40, arcade.color.WHITE, 14,
-                         width=300, align="left", anchor_x="left", anchor_y="center")
+            life = f"Lives: {self.player_sprite.lives}"
+            arcade.draw_text(life, 10, 40, arcade.color.WHITE, 14,
+                             width=300, align="left", anchor_x="left", anchor_y="center")
 
         # Game Over Screen
         if self.player_sprite.lives == 0:
