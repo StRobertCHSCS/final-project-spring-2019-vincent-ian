@@ -235,8 +235,10 @@ class MyGame(arcade.Window):
 
         if self.player_sprite.lives == 0 or len(self.level_1_asteroid_list) == 0:
             arcade.draw_rectangle_filled(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT, arcade.color.WHITE)
-            arcade.draw_text("Game Over", 400, 500, arcade.color.BLACK, 30)
-            arcade.draw_text("Score: " + str(self.player_sprite.score), 400, 300, arcade.color.BLACK, 30)
+            arcade.draw_text("Game Over", 400, 500, arcade.color.BLACK, 30,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
+            arcade.draw_text("Score: " + str(self.player_sprite.score), 400, 300, arcade.color.BLACK, 30,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
 
     def on_key_press(self, key, modifiers):
         # User Control with arrow keys
