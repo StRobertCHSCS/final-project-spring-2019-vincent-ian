@@ -126,7 +126,15 @@ class MyGame(arcade.Window):
             asteroid = ASTEROID("images/asteroid.png", SPRITE_SCALING_ASTEROID)
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
+
+            if asteroid.center_x == 400:
+                asteroid.center_x = random.randrange(SCREEN_WIDTH)
+
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
+
+            if asteroid.center_y == 300:
+                asteroid.center_y = random.randrange(SCREEN_HEIGHT)
+
             asteroid.change_x = random.randrange(-5, 5)
             asteroid.change_y = random.randrange(-5, 5)
 
@@ -139,7 +147,15 @@ class MyGame(arcade.Window):
             asteroid = ASTEROID("images/asteroid.png", SPRITE_SCALING_ASTEROID)
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
+
+            if asteroid.center_x == 400:
+                asteroid.center_x = random.randrange(SCREEN_WIDTH)
+
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
+
+            if asteroid.center_y == 300:
+                asteroid.center_y = random.randrange(SCREEN_HEIGHT)
+
             asteroid.change_x = random.randrange(-5, 5)
             asteroid.change_y = random.randrange(-5, 5)
 
@@ -152,7 +168,15 @@ class MyGame(arcade.Window):
             asteroid = ASTEROID("images/asteroid.png", SPRITE_SCALING_ASTEROID)
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
+
+            if asteroid.center_x == 400:
+                asteroid.center_x = random.randrange(SCREEN_WIDTH)
+
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
+
+            if asteroid.center_y == 300:
+                asteroid.center_y = random.randrange(SCREEN_HEIGHT)
+
             asteroid.change_x = random.randrange(-5, 5)
             asteroid.change_y = random.randrange(-5, 5)
 
@@ -165,7 +189,15 @@ class MyGame(arcade.Window):
             asteroid = ASTEROID("images/asteroid.png", SPRITE_SCALING_ASTEROID)
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
+
+            if asteroid.center_x == 400:
+                asteroid.center_x = random.randrange(SCREEN_WIDTH)
+
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
+
+            if asteroid.center_y == 300:
+                asteroid.center_y = random.randrange(SCREEN_HEIGHT)
+
             asteroid.change_x = random.randrange(-5, 5)
             asteroid.change_y = random.randrange(-5, 5)
 
@@ -178,7 +210,15 @@ class MyGame(arcade.Window):
             asteroid = ASTEROID("images/asteroid.png", SPRITE_SCALING_ASTEROID)
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
+
+            if asteroid.center_x == 400:
+                asteroid.center_x = random.randrange(SCREEN_WIDTH)
+
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
+
+            if asteroid.center_y == 300:
+                asteroid.center_y = random.randrange(SCREEN_HEIGHT)
+
             asteroid.change_x = random.randrange(-5, 5)
             asteroid.change_y = random.randrange(-5, 5)
 
@@ -224,12 +264,16 @@ class MyGame(arcade.Window):
             elif self.game_level == 5:
                 self.level_5_asteroid_list.draw()
 
+            level = f"Level: {self.game_level}"
+            arcade.draw_text(level, 10, 20, arcade.color.WHITE, 14,
+                             width=300, align="left", anchor_x="left", anchor_y="center")
+
             score = f"Score: {self.player_sprite.score}"
-            arcade.draw_text(score, 10, 20, arcade.color.WHITE, 14,
+            arcade.draw_text(score, 10, 40, arcade.color.WHITE, 14,
                              width=300, align="left", anchor_x="left", anchor_y="center")
 
             life = f"Lives: {self.player_sprite.lives}"
-            arcade.draw_text(life, 10, 40, arcade.color.WHITE, 14,
+            arcade.draw_text(life, 10, 60, arcade.color.WHITE, 14,
                              width=300, align="left", anchor_x="left", anchor_y="center")
 
         # Game Over Screen
