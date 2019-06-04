@@ -127,12 +127,12 @@ class MyGame(arcade.Window):
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
-            if asteroid.center_x == 400:
+            if asteroid.center_x < 500 or asteroid.center_y > 300:
                 asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
-            if asteroid.center_y == 300:
+            if asteroid.center_y < 400 or asteroid.center_y > 200:
                 asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
             asteroid.change_x = random.randrange(-5, 5)
@@ -148,12 +148,12 @@ class MyGame(arcade.Window):
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
-            if asteroid.center_x == 400:
+            if asteroid.center_x < 500 or asteroid.center_y > 300:
                 asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
-            if asteroid.center_y == 300:
+            if asteroid.center_y < 400 or asteroid.center_y > 200:
                 asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
             asteroid.change_x = random.randrange(-5, 5)
@@ -169,12 +169,12 @@ class MyGame(arcade.Window):
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
-            if asteroid.center_x == 400:
+            if asteroid.center_x < 500 or asteroid.center_y > 300:
                 asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
-            if asteroid.center_y == 300:
+            if asteroid.center_y < 400 or asteroid.center_y > 200:
                 asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
             asteroid.change_x = random.randrange(-5, 5)
@@ -190,12 +190,12 @@ class MyGame(arcade.Window):
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
-            if asteroid.center_x == 400:
+            if asteroid.center_x < 500 or asteroid.center_y > 300:
                 asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
-            if asteroid.center_y == 300:
+            if asteroid.center_y < 400 or asteroid.center_y > 200:
                 asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
             asteroid.change_x = random.randrange(-5, 5)
@@ -211,12 +211,12 @@ class MyGame(arcade.Window):
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
-            if asteroid.center_x == 400:
+            if asteroid.center_x < 500 or asteroid.center_y > 300:
                 asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
-            if asteroid.center_y == 300:
+            if asteroid.center_y < 400 or asteroid.center_y > 200:
                 asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
             asteroid.change_x = random.randrange(-5, 5)
@@ -303,9 +303,9 @@ class MyGame(arcade.Window):
             self.bullet_list.append(self.bullet_sprite)
 
         if key == arcade.key.LEFT:
-            self.player_sprite.change_angle = 3
+            self.player_sprite.change_angle = 5
         elif key == arcade.key.RIGHT:
-            self.player_sprite.change_angle = -3
+            self.player_sprite.change_angle = -5
         elif key == arcade.key.UP:
             self.player_sprite.speed = 5
         elif key == arcade.key.DOWN:
