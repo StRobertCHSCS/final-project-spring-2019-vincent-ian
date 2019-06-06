@@ -97,6 +97,12 @@ class MyGame(arcade.Window):
 
         self.game_level = 1
 
+        self.show_level_1 = True
+        self.show_level_2 = True
+        self.show_level_3 = True
+        self.show_level_4 = True
+        self.show_level_5 = True
+
         # Sprite lists
         self.level_1_asteroid_list = None
         self.level_2_asteroid_list = None
@@ -233,10 +239,10 @@ class MyGame(arcade.Window):
 
         # Title
         arcade.draw_text("Asteroid Shooter", 400, 500, arcade.color.WHITE, 30,
-                         width=300, align="center", anchor_x="center", anchor_y="center")
+                         width=500, align="center", anchor_x="center", anchor_y="center")
 
         # Play button
-        arcade.draw_rectangle_outline(400, 200, 250, 50, arcade.color.WHITE)
+        arcade.draw_rectangle_outline(400, 200, 350, 50, arcade.color.WHITE)
         arcade.draw_text("Press SPACE to start", 400, 200, arcade.color.WHITE, self.play_size,
                          width=300, align="center", anchor_x="center", anchor_y="center")
 
@@ -253,7 +259,7 @@ class MyGame(arcade.Window):
             self.bullet_list.draw()
 
             # Draw asteroids
-            if self.game_level == 1:
+            if self.game_level == 1 and not self.show_level_1:
                 self.level_1_asteroid_list.draw()
             elif self.game_level == 2:
                 self.level_2_asteroid_list.draw()
@@ -276,13 +282,16 @@ class MyGame(arcade.Window):
             arcade.draw_text(life, 10, 60, arcade.color.WHITE, 14,
                              width=300, align="left", anchor_x="left", anchor_y="center")
 
+        if self.start and self.show_level_1:
+            arcade.draw_rectangle_filled(400, 300, 800, 600, arcade.color.BLACK)
+
         # Game Over Screen
         if self.player_sprite.lives == 0:
             arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
                                           self.game_over_screen)
             arcade.draw_text("Score: " + str(self.player_sprite.score), 400, 100, arcade.color.WHITE, 30,
                              width=300, align="center", anchor_x="center", anchor_y="center")
-
+        # Win Screen
         elif len(self.level_5_asteroid_list) == 0:
             arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
                                           self.win_screen)
@@ -290,8 +299,12 @@ class MyGame(arcade.Window):
                              width=300, align="center", anchor_x="center", anchor_y="center")
 
     def on_key_press(self, key, modifiers):
-        # User Control with arrow keys
 
+        # Show level screen
+        if self.start and self.show_level_1 and key == arcade.key.SPACE:
+            self.show_level_1 = False
+
+        # User Control with arrow keys
         if key == arcade.key.SPACE and not self.start:
             self.start = True
         elif key == arcade.key.SPACE and self.start:
