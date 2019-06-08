@@ -282,8 +282,8 @@ class MyGame(arcade.Window):
             arcade.draw_text(life, 10, 60, arcade.color.WHITE, 14,
                              width=300, align="left", anchor_x="left", anchor_y="center")
 
-        if self.start and self.show_level_1:
-            arcade.draw_rectangle_filled(400, 300, 800, 600, arcade.color.BLACK)
+            if self.show_level_1:
+                arcade.draw_rectangle_filled(400, 300, 800, 600, arcade.color.BLACK)
 
         # Game Over Screen
         if self.player_sprite.lives == 0:
@@ -332,11 +332,11 @@ class MyGame(arcade.Window):
             self.player_sprite.speed = 0
 
     def update(self, x):
-        if self.player_sprite.lives != 0:
+        if not self.show_level_1 and self.player_sprite.lives != 0:
             self.player_sprite.update()
             self.bullet_list.update()
 
-            if self.game_level == 1:
+            if self.game_level == 1 and not self.show_level_1:
                 self.level_1_asteroid_list.update()
 
                 # Check if player has hit asteroid
