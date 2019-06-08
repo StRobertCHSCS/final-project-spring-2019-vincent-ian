@@ -87,13 +87,16 @@ class MyGame(arcade.Window):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Asteroid Game")
 
         self.player_list = None
+        self.ship_life_list = None
         self.player_sprite = None
         self.bullet_list = None
         self.bullet_sprite = None
         self.play_size = 20
-        self.instructions_size = 20
+        self.instructions_size = 15
 
+        self.menu = True
         self.start = False
+        self.instructions = False
 
         self.game_level = 1
 
@@ -116,6 +119,11 @@ class MyGame(arcade.Window):
         self.game_over_screen = arcade.load_texture("images/game over screen.jpg")
         self.win_screen = arcade.load_texture("images/win screen.jpg")
 
+        # Set up sound
+
+        self.laser = arcade.load_sound(r"images/laser.mp3")
+        self.explode = arcade.load_sound(r"images/explode.mp3")
+
     def setup(self):
         self.player_list = arcade.SpriteList()
         self.player_sprite = ShipSprite(r'images/plane.png', 0.075)
@@ -125,6 +133,18 @@ class MyGame(arcade.Window):
 
         self.bullet_list = arcade.SpriteList()
 
+        # Lives list
+
+        position = 0
+        self.ship_life_list = arcade.SpriteList()
+
+        for i in range(self.player_sprite.lives):
+            life = arcade.Sprite(r"images/plane.png", 0.05)
+            life.center_x = position + life.width
+            life.center_y = life.height
+            position += life.width
+            self.ship_life_list.append(life)
+
         # Create level 1 sprite list
         self.level_1_asteroid_list = arcade.SpriteList()
 
@@ -133,12 +153,12 @@ class MyGame(arcade.Window):
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
-            if asteroid.center_x == 400:
+            if asteroid.center_x < 500 or asteroid.center_y > 300:
                 asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
-            if asteroid.center_y == 300:
+            if asteroid.center_y < 400 or asteroid.center_y > 200:
                 asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
             asteroid.change_x = random.randrange(-5, 5)
@@ -154,12 +174,12 @@ class MyGame(arcade.Window):
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
-            if asteroid.center_x == 400:
+            if asteroid.center_x < 500 or asteroid.center_y > 300:
                 asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
-            if asteroid.center_y == 300:
+            if asteroid.center_y < 400 or asteroid.center_y > 200:
                 asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
             asteroid.change_x = random.randrange(-5, 5)
@@ -175,12 +195,12 @@ class MyGame(arcade.Window):
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
-            if asteroid.center_x == 400:
+            if asteroid.center_x < 500 or asteroid.center_y > 300:
                 asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
-            if asteroid.center_y == 300:
+            if asteroid.center_y < 400 or asteroid.center_y > 200:
                 asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
             asteroid.change_x = random.randrange(-5, 5)
@@ -196,12 +216,12 @@ class MyGame(arcade.Window):
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
-            if asteroid.center_x == 400:
+            if asteroid.center_x < 500 or asteroid.center_y > 300:
                 asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
-            if asteroid.center_y == 300:
+            if asteroid.center_y < 400 or asteroid.center_y > 200:
                 asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
             asteroid.change_x = random.randrange(-5, 5)
@@ -217,12 +237,12 @@ class MyGame(arcade.Window):
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
-            if asteroid.center_x == 400:
+            if asteroid.center_x < 500 or asteroid.center_y > 300:
                 asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
-            if asteroid.center_y == 300:
+            if asteroid.center_y < 400 or asteroid.center_y > 200:
                 asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
             asteroid.change_x = random.randrange(-5, 5)
@@ -233,23 +253,24 @@ class MyGame(arcade.Window):
     def on_draw(self):
         arcade.start_render()
 
-        # Start Screen
-        arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
-                                      self.home_screen_background)
+        if self.menu:
+            # Start Screen
+            arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
+                                          self.home_screen_background)
 
-        # Title
-        arcade.draw_text("Asteroid Shooter", 400, 500, arcade.color.WHITE, 30,
-                         width=500, align="center", anchor_x="center", anchor_y="center")
+            # Title
+            arcade.draw_text("Asteroid Shooter", 400, 500, arcade.color.WHITE, 30,
+                             width=500, align="center", anchor_x="center", anchor_y="center")
 
-        # Play button
-        arcade.draw_rectangle_outline(400, 200, 350, 50, arcade.color.WHITE)
-        arcade.draw_text("Press SPACE to start", 400, 200, arcade.color.WHITE, self.play_size,
-                         width=300, align="center", anchor_x="center", anchor_y="center")
+            # Play button
+            arcade.draw_rectangle_outline(400, 200, 250, 50, arcade.color.WHITE)
+            arcade.draw_text("Press SPACE to start", 400, 200, arcade.color.WHITE, self.play_size,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
 
-        # Instructions button
-        arcade.draw_rectangle_outline(400, 140, 200, 50, arcade.color.WHITE)
-        arcade.draw_text("Instructions", 400, 140, arcade.color.WHITE, self.instructions_size,
-                         width=300, align="center", anchor_x="center", anchor_y="center")
+            # Instructions button
+            arcade.draw_rectangle_outline(400, 140, 200, 50, arcade.color.WHITE)
+            arcade.draw_text("Press I for Instructions", 400, 140, arcade.color.WHITE, self.instructions_size,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
 
         # Game Run
         if self.start:
@@ -271,16 +292,15 @@ class MyGame(arcade.Window):
                 self.level_5_asteroid_list.draw()
 
             level = f"Level: {self.game_level}"
-            arcade.draw_text(level, 10, 20, arcade.color.WHITE, 14,
+            arcade.draw_text(level, 10, 75, arcade.color.WHITE, 14,
                              width=300, align="left", anchor_x="left", anchor_y="center")
 
             score = f"Score: {self.player_sprite.score}"
-            arcade.draw_text(score, 10, 40, arcade.color.WHITE, 14,
+            arcade.draw_text(score, 10, 55, arcade.color.WHITE, 14,
                              width=300, align="left", anchor_x="left", anchor_y="center")
 
-            life = f"Lives: {self.player_sprite.lives}"
-            arcade.draw_text(life, 10, 60, arcade.color.WHITE, 14,
-                             width=300, align="left", anchor_x="left", anchor_y="center")
+            # Draw Lives List
+            self.ship_life_list.draw()
 
             if self.show_level_1:
                 arcade.draw_rectangle_filled(400, 300, 800, 600, arcade.color.BLACK)
@@ -298,6 +318,36 @@ class MyGame(arcade.Window):
             arcade.draw_text("Score: " + str(self.player_sprite.score), 400, 120, arcade.color.WHITE, 30,
                              width=300, align="center", anchor_x="center", anchor_y="center")
 
+        # Instructions Menu
+        if self.instructions:
+            arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
+                                          self.home_screen_background)
+
+            arcade.draw_text("Instructions", 400, 500, arcade.color.WHITE, 30,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
+            arcade.draw_text("Up", 200, 450, arcade.color.WHITE, 30,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
+            arcade.draw_text("Up Arrow", 600, 450, arcade.color.WHITE, 30,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
+            arcade.draw_text("Down", 200, 400, arcade.color.WHITE, 30,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
+            arcade.draw_text("Down Arrow", 600, 400, arcade.color.WHITE, 30,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
+            arcade.draw_text("Turn Left", 200, 350, arcade.color.WHITE, 30,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
+            arcade.draw_text("Left Arrow", 600, 350, arcade.color.WHITE, 30,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
+            arcade.draw_text("Turn Right", 200, 300, arcade.color.WHITE, 30,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
+            arcade.draw_text("Right Arrow", 600, 300, arcade.color.WHITE, 30,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
+            arcade.draw_text("Shoot", 200, 250, arcade.color.WHITE, 30,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
+            arcade.draw_text("Space", 600, 250, arcade.color.WHITE, 30,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
+            arcade.draw_text("Press M to go back", 400, 100, arcade.color.WHITE, 30,
+                             width=300, align="center", anchor_x="center", anchor_y="center")
+
     def on_key_press(self, key, modifiers):
 
         # Show level screen
@@ -307,6 +357,8 @@ class MyGame(arcade.Window):
         # User Control with arrow keys
         if key == arcade.key.SPACE and not self.start:
             self.start = True
+            self.menu = False
+            self.instructions = False
         elif key == arcade.key.SPACE and self.start:
             self.bullet_sprite = Bullets(r'images/lazer.png', 0.25)
             self.bullet_sprite.center_x = self.player_sprite.center_x
@@ -314,11 +366,20 @@ class MyGame(arcade.Window):
             self.bullet_sprite.change_y = math.cos(math.radians(self.player_sprite.angle)) * 13
             self.bullet_sprite.change_x = -math.sin(math.radians(self.player_sprite.angle)) * 13
             self.bullet_list.append(self.bullet_sprite)
+            arcade.play_sound(self.laser)
+        elif key == arcade.key.I:
+            self.instructions = True
+            self.menu = False
+            self.start = False
+        elif key == arcade.key.M:
+            self.menu = True
+            self.start = False
+            self.instructions = False
 
         if key == arcade.key.LEFT:
-            self.player_sprite.change_angle = 3
+            self.player_sprite.change_angle = 5
         elif key == arcade.key.RIGHT:
-            self.player_sprite.change_angle = -3
+            self.player_sprite.change_angle = -5
         elif key == arcade.key.UP:
             self.player_sprite.speed = 5
         elif key == arcade.key.DOWN:
@@ -345,6 +406,8 @@ class MyGame(arcade.Window):
                 for asteroid in level_1_asteroid_hit_list:
                     asteroid.kill()
                     self.player_sprite.lives -= 1
+                    self.ship_life_list.pop().kill()
+                    arcade.play_sound(self.explode)
 
                 if len(self.bullet_list) > 0:
                     level_1_asteroid_shot_list = arcade.check_for_collision_with_list(self.bullet_sprite,
@@ -352,6 +415,7 @@ class MyGame(arcade.Window):
                     for asteroid in level_1_asteroid_shot_list:
                         asteroid.kill()
                         self.player_sprite.score += 1
+                        arcade.play_sound(self.explode)
 
                     if len(self.level_1_asteroid_list) == 0:
                         self.game_level = 2
@@ -365,6 +429,8 @@ class MyGame(arcade.Window):
                 for asteroid in level_2_asteroid_hit_list:
                     asteroid.kill()
                     self.player_sprite.lives -= 1
+                    self.ship_life_list.pop().kill()
+                    arcade.play_sound(self.explode)
 
                 if len(self.bullet_list) > 0:
                     level_2_asteroid_shot_list = arcade.check_for_collision_with_list(self.bullet_sprite,
@@ -372,6 +438,7 @@ class MyGame(arcade.Window):
                     for asteroid in level_2_asteroid_shot_list:
                         asteroid.kill()
                         self.player_sprite.score += 1
+                        arcade.play_sound(self.explode)
 
                     if len(self.level_2_asteroid_list) == 0:
                         self.game_level = 3
@@ -385,6 +452,8 @@ class MyGame(arcade.Window):
                 for asteroid in level_3_asteroid_hit_list:
                     asteroid.kill()
                     self.player_sprite.lives -= 1
+                    self.ship_life_list.pop().kill()
+                    arcade.play_sound(self.explode)
 
                 if len(self.bullet_list) > 0:
                     level_3_asteroid_shot_list = arcade.check_for_collision_with_list(self.bullet_sprite,
@@ -392,6 +461,7 @@ class MyGame(arcade.Window):
                     for asteroid in level_3_asteroid_shot_list:
                         asteroid.kill()
                         self.player_sprite.score += 1
+                        arcade.play_sound(self.explode)
 
                     if len(self.level_3_asteroid_list) == 0:
                         self.game_level = 4
@@ -405,6 +475,8 @@ class MyGame(arcade.Window):
                 for asteroid in level_4_asteroid_hit_list:
                     asteroid.kill()
                     self.player_sprite.lives -= 1
+                    self.ship_life_list.pop().kill()
+                    arcade.play_sound(self.explode)
 
                 if len(self.bullet_list) > 0:
                     level_4_asteroid_shot_list = arcade.check_for_collision_with_list(self.bullet_sprite,
@@ -412,6 +484,7 @@ class MyGame(arcade.Window):
                     for asteroid in level_4_asteroid_shot_list:
                         asteroid.kill()
                         self.player_sprite.score += 1
+                        arcade.play_sound(self.explode)
 
                     if len(self.level_4_asteroid_list) == 0:
                         self.game_level = 5
@@ -425,6 +498,8 @@ class MyGame(arcade.Window):
                 for asteroid in level_5_asteroid_hit_list:
                     asteroid.kill()
                     self.player_sprite.lives -= 1
+                    self.ship_life_list.pop().kill()
+                    arcade.play_sound(self.explode)
 
                 if len(self.bullet_list) > 0:
                     level_5_asteroid_shot_list = arcade.check_for_collision_with_list(self.bullet_sprite,
@@ -432,6 +507,7 @@ class MyGame(arcade.Window):
                     for asteroid in level_5_asteroid_shot_list:
                         asteroid.kill()
                         self.player_sprite.score += 1
+                        arcade.play_sound(self.explode)
 
 
 def main():
