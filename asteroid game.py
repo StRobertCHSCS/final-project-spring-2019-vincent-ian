@@ -110,6 +110,11 @@ class MyGame(arcade.Window):
         self.game_over_screen = arcade.load_texture("images/game over screen.jpg")
         self.win_screen = arcade.load_texture("images/win screen.jpg")
 
+        # Set up sound
+
+        self.laser = arcade.load_sound(r"images/laser.mp3")
+        self.explode = arcade.load_sound(r"images/explode.mp3")
+
     def setup(self):
         self.player_list = arcade.SpriteList()
         self.player_sprite = ShipSprite(r'images/plane.png', 0.075)
@@ -301,6 +306,7 @@ class MyGame(arcade.Window):
             self.bullet_sprite.change_y = math.cos(math.radians(self.player_sprite.angle)) * 13
             self.bullet_sprite.change_x = -math.sin(math.radians(self.player_sprite.angle)) * 13
             self.bullet_list.append(self.bullet_sprite)
+            arcade.play_sound(self.laser)
 
         if key == arcade.key.LEFT:
             self.player_sprite.change_angle = 5
@@ -332,6 +338,7 @@ class MyGame(arcade.Window):
                 for asteroid in level_1_asteroid_hit_list:
                     asteroid.kill()
                     self.player_sprite.lives -= 1
+                    arcade.play_sound(self.explode)
 
                 if len(self.bullet_list) > 0:
                     level_1_asteroid_shot_list = arcade.check_for_collision_with_list(self.bullet_sprite,
@@ -339,6 +346,7 @@ class MyGame(arcade.Window):
                     for asteroid in level_1_asteroid_shot_list:
                         asteroid.kill()
                         self.player_sprite.score += 1
+                        arcade.play_sound(self.explode)
 
                     if len(self.level_1_asteroid_list) == 0:
                         self.game_level = 2
@@ -352,6 +360,7 @@ class MyGame(arcade.Window):
                 for asteroid in level_2_asteroid_hit_list:
                     asteroid.kill()
                     self.player_sprite.lives -= 1
+                    arcade.play_sound(self.explode)
 
                 if len(self.bullet_list) > 0:
                     level_2_asteroid_shot_list = arcade.check_for_collision_with_list(self.bullet_sprite,
@@ -359,6 +368,7 @@ class MyGame(arcade.Window):
                     for asteroid in level_2_asteroid_shot_list:
                         asteroid.kill()
                         self.player_sprite.score += 1
+                        arcade.play_sound(self.explode)
 
                     if len(self.level_2_asteroid_list) == 0:
                         self.game_level = 3
@@ -372,6 +382,7 @@ class MyGame(arcade.Window):
                 for asteroid in level_3_asteroid_hit_list:
                     asteroid.kill()
                     self.player_sprite.lives -= 1
+                    arcade.play_sound(self.explode)
 
                 if len(self.bullet_list) > 0:
                     level_3_asteroid_shot_list = arcade.check_for_collision_with_list(self.bullet_sprite,
@@ -379,6 +390,7 @@ class MyGame(arcade.Window):
                     for asteroid in level_3_asteroid_shot_list:
                         asteroid.kill()
                         self.player_sprite.score += 1
+                        arcade.play_sound(self.explode)
 
                     if len(self.level_3_asteroid_list) == 0:
                         self.game_level = 4
@@ -392,6 +404,7 @@ class MyGame(arcade.Window):
                 for asteroid in level_4_asteroid_hit_list:
                     asteroid.kill()
                     self.player_sprite.lives -= 1
+                    arcade.play_sound(self.explode)
 
                 if len(self.bullet_list) > 0:
                     level_4_asteroid_shot_list = arcade.check_for_collision_with_list(self.bullet_sprite,
@@ -399,6 +412,7 @@ class MyGame(arcade.Window):
                     for asteroid in level_4_asteroid_shot_list:
                         asteroid.kill()
                         self.player_sprite.score += 1
+                        arcade.play_sound(self.explode)
 
                     if len(self.level_4_asteroid_list) == 0:
                         self.game_level = 5
@@ -412,6 +426,7 @@ class MyGame(arcade.Window):
                 for asteroid in level_5_asteroid_hit_list:
                     asteroid.kill()
                     self.player_sprite.lives -= 1
+                    arcade.play_sound(self.explode)
 
                 if len(self.bullet_list) > 0:
                     level_5_asteroid_shot_list = arcade.check_for_collision_with_list(self.bullet_sprite,
@@ -419,6 +434,7 @@ class MyGame(arcade.Window):
                     for asteroid in level_5_asteroid_shot_list:
                         asteroid.kill()
                         self.player_sprite.score += 1
+                        arcade.play_sound(self.explode)
 
 
 def main():
