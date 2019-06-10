@@ -120,7 +120,6 @@ class MyGame(arcade.Window):
         self.win_screen = arcade.load_texture("images/win screen.jpg")
 
         # Set up sound
-
         self.laser = arcade.load_sound(r"images/laser.mp3")
         self.explode = arcade.load_sound(r"images/explode.mp3")
 
@@ -134,7 +133,6 @@ class MyGame(arcade.Window):
         self.bullet_list = arcade.SpriteList()
 
         # Lives list
-
         position = 0
         self.ship_life_list = arcade.SpriteList()
 
@@ -282,13 +280,13 @@ class MyGame(arcade.Window):
             # Draw asteroids
             if self.game_level == 1 and not self.show_level_1:
                 self.level_1_asteroid_list.draw()
-            elif self.game_level == 2:
+            elif self.game_level == 2 and not self.show_level_2:
                 self.level_2_asteroid_list.draw()
-            elif self.game_level == 3:
+            elif self.game_level == 3 and not self.show_level_3:
                 self.level_3_asteroid_list.draw()
-            elif self.game_level == 4:
+            elif self.game_level == 4 and not self.show_level_4:
                 self.level_4_asteroid_list.draw()
-            elif self.game_level == 5:
+            elif self.game_level == 5 and not self.show_level_5:
                 self.level_5_asteroid_list.draw()
 
             level = f"Level: {self.game_level}"
@@ -302,8 +300,27 @@ class MyGame(arcade.Window):
             # Draw Lives List
             self.ship_life_list.draw()
 
-            if self.show_level_1:
+            # Show the game level
+            if self.show_level_1 and self.game_level == 1:
                 arcade.draw_rectangle_filled(400, 300, 800, 600, arcade.color.BLACK)
+                arcade.draw_text("LEVEL 1", 400, 300, arcade.color.WHITE, 50,
+                                 width=300, align="center", anchor_x="center", anchor_y="center")
+            elif self.show_level_2 and self.game_level == 2:
+                arcade.draw_rectangle_filled(400, 300, 800, 600, arcade.color.BLACK)
+                arcade.draw_text("LEVEL 2", 400, 300, arcade.color.WHITE, 50,
+                                 width=300, align="center", anchor_x="center", anchor_y="center")
+            elif self.show_level_3 and self.game_level == 3:
+                arcade.draw_rectangle_filled(400, 300, 800, 600, arcade.color.BLACK)
+                arcade.draw_text("LEVEL 3", 400, 300, arcade.color.WHITE, 50,
+                                 width=300, align="center", anchor_x="center", anchor_y="center")
+            elif self.show_level_4 and self.game_level == 4:
+                arcade.draw_rectangle_filled(400, 300, 800, 600, arcade.color.BLACK)
+                arcade.draw_text("LEVEL 4", 400, 300, arcade.color.WHITE, 50,
+                                 width=300, align="center", anchor_x="center", anchor_y="center")
+            elif self.show_level_5 and self.game_level == 5:
+                arcade.draw_rectangle_filled(400, 300, 800, 600, arcade.color.BLACK)
+                arcade.draw_text("LEVEL 5", 400, 300, arcade.color.WHITE, 50,
+                                 width=300, align="center", anchor_x="center", anchor_y="center")
 
         # Game Over Screen
         if self.player_sprite.lives == 0:
@@ -351,8 +368,16 @@ class MyGame(arcade.Window):
     def on_key_press(self, key, modifiers):
 
         # Show level screen
-        if self.start and self.show_level_1 and key == arcade.key.SPACE:
+        if self.start and self.show_level_1 and self.game_level == 1 and key == arcade.key.SPACE:
             self.show_level_1 = False
+        elif self.start and self.show_level_2 and self.game_level == 2 and key == arcade.key.SPACE:
+            self.show_level_2 = False
+        elif self.start and self.show_level_3 and self.game_level == 3 and key == arcade.key.SPACE:
+            self.show_level_3 = False
+        elif self.start and self.show_level_4 and self.game_level == 4 and key == arcade.key.SPACE:
+            self.show_level_4 = False
+        elif self.start and self.show_level_5 and self.game_level == 5 and key == arcade.key.SPACE:
+            self.show_level_5 = False
 
         # User Control with arrow keys
         if key == arcade.key.SPACE and not self.start:
@@ -420,7 +445,7 @@ class MyGame(arcade.Window):
                     if len(self.level_1_asteroid_list) == 0:
                         self.game_level = 2
 
-            elif self.game_level == 2:
+            elif self.game_level == 2 and not self.show_level_2:
                 self.level_2_asteroid_list.update()
 
                 # Check if player has hit asteroid
