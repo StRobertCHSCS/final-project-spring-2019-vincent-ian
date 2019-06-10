@@ -5,8 +5,6 @@ import random
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
-SPRITE_SCALING_ASTEROID = 0.1
-
 LEVEL_1_ASTEROID_COUNT = 5
 LEVEL_2_ASTEROID_COUNT = 10
 LEVEL_3_ASTEROID_COUNT = 15
@@ -151,16 +149,16 @@ class MyGame(arcade.Window):
         self.level_1_asteroid_list = arcade.SpriteList()
 
         for i in range(LEVEL_1_ASTEROID_COUNT):
-            asteroid = ASTEROID("images/asteroid.png", SPRITE_SCALING_ASTEROID)
+            asteroid = ASTEROID("images/asteroid.png", 0.1)
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
             # Reset x coordinate until not inside player spawning area
-            while asteroid.center_x < 500 and asteroid.center_y > 300:
+            while 300 < asteroid.center_x < 500:
                 asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
             # Reset y coordinate until not inside player spawning area
-            while asteroid.center_y < 400 and asteroid.center_y > 200:
+            while 200 < asteroid.center_y < 400:
                 asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
             asteroid.change_x = random.randrange(-5, 5)
@@ -172,16 +170,16 @@ class MyGame(arcade.Window):
         self.level_2_asteroid_list = arcade.SpriteList()
 
         for i in range(LEVEL_2_ASTEROID_COUNT):
-            asteroid = ASTEROID("images/asteroid.png", SPRITE_SCALING_ASTEROID)
+            asteroid = ASTEROID("images/asteroid.png", 0.1)
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
             # Reset x coordinate until not inside player spawning area
-            while asteroid.center_x < 500 and asteroid.center_y > 300:
+            while 300 < asteroid.center_x < 500:
                 asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
             # Reset y coordinate until not inside player spawning area
-            while asteroid.center_y < 400 and asteroid.center_y > 200:
+            while 200 < asteroid.center_y < 400:
                 asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
             asteroid.change_x = random.randrange(-5, 5)
@@ -193,16 +191,16 @@ class MyGame(arcade.Window):
         self.level_3_asteroid_list = arcade.SpriteList()
 
         for i in range(LEVEL_3_ASTEROID_COUNT):
-            asteroid = ASTEROID("images/asteroid.png", SPRITE_SCALING_ASTEROID)
+            asteroid = ASTEROID("images/asteroid.png", 0.1)
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
             # Reset x coordinate until not inside player spawning area
-            while asteroid.center_x < 500 and asteroid.center_y > 300:
+            while 300 < asteroid.center_x < 500:
                 asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
             # Reset y coordinate until not inside player spawning area
-            while asteroid.center_y < 400 and asteroid.center_y > 200:
+            while 200 < asteroid.center_y < 400:
                 asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
             asteroid.change_x = random.randrange(-5, 5)
@@ -214,16 +212,16 @@ class MyGame(arcade.Window):
         self.level_4_asteroid_list = arcade.SpriteList()
 
         for i in range(LEVEL_4_ASTEROID_COUNT):
-            asteroid = ASTEROID("images/asteroid.png", SPRITE_SCALING_ASTEROID)
+            asteroid = ASTEROID("images/asteroid.png", 0.1)
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
             # Reset x coordinate until not inside player spawning area
-            while asteroid.center_x < 500 and asteroid.center_y > 300:
+            while 300 < asteroid.center_x < 500:
                 asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
             # Reset y coordinate until not inside player spawning area
-            while asteroid.center_y < 400 and asteroid.center_y > 200:
+            while 200 < asteroid.center_y < 400:
                 asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
             asteroid.change_x = random.randrange(-5, 5)
@@ -235,16 +233,16 @@ class MyGame(arcade.Window):
         self.level_5_asteroid_list = arcade.SpriteList()
 
         for i in range(LEVEL_5_ASTEROID_COUNT):
-            asteroid = ASTEROID("images/asteroid.png", SPRITE_SCALING_ASTEROID)
+            asteroid = ASTEROID("images/asteroid.png", 0.1)
 
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
             # Reset x coordinate until not inside player spawning area
-            while asteroid.center_x < 500 and asteroid.center_y > 300:
+            while 300 < asteroid.center_x < 500:
                 asteroid.center_x = random.randrange(SCREEN_WIDTH)
 
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
             # Reset y coordinate until not inside player spawning area
-            while asteroid.center_y < 400 and asteroid.center_y > 200:
+            while 200 < asteroid.center_y < 400:
                 asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
             asteroid.change_x = random.randrange(-5, 5)
@@ -374,6 +372,7 @@ class MyGame(arcade.Window):
         # Commands for game
         if self.start:
 
+            # Display level
             if self.show_level_1 and self.game_level == 1 and key == arcade.key.SPACE:
                 self.show_level_1 = False
             elif self.show_level_2 and self.game_level == 2 and key == arcade.key.SPACE:
@@ -405,17 +404,6 @@ class MyGame(arcade.Window):
                 self.bullet_list.append(self.bullet_sprite)
                 arcade.play_sound(self.laser)
 
-            # if self.show_level_1 and self.game_level == 1 and key == arcade.key.SPACE:
-            #     self.show_level_1 = False
-            # elif self.show_level_2 and self.game_level == 2 and key == arcade.key.SPACE:
-            #     self.show_level_2 = False
-            # elif self.show_level_3 and self.game_level == 3 and key == arcade.key.SPACE:
-            #     self.show_level_3 = False
-            # elif self.show_level_4 and self.game_level == 4 and key == arcade.key.SPACE:
-            #     self.show_level_4 = False
-            # elif self.show_level_5 and self.game_level == 5 and key == arcade.key.SPACE:
-            #     self.show_level_5 = False
-
         # User navigation with keys
         if key == arcade.key.SPACE and not self.start:
             self.start = True
@@ -429,6 +417,9 @@ class MyGame(arcade.Window):
             self.menu = True
             self.start = False
             self.instructions = False
+
+        if (self.player_sprite.lives == 0 or len(self.level_5_asteroid_list) == 0) and key == arcade.key.SPACE:
+            pass
 
     def on_key_release(self, key, modifiers):
         # Releasing of arrow keys
