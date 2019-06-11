@@ -62,7 +62,7 @@ class ShipSprite(arcade.Sprite):
         self.center_y += self.change_y
         super().update()
 
-    def respawn(self):
+    def center_ship(self):
         self.center_x = 400
         self.center_y = 300
         self.angle = 0
@@ -88,25 +88,29 @@ class MyGame(arcade.Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Asteroid Game")
 
+        # Player variables
         self.player_list = None
         self.ship_life_list = None
         self.player_sprite = None
+
+        # Bullet variables
         self.bullet_list = None
         self.bullet_sprite = None
-        self.play_size = 20
-        self.instructions_size = 15
 
-        self.menu = True
-        self.start = False
-        self.instructions = False
+        # Screen information
+        self.menu = None
+        self.start = None
+        self.instructions = None
 
-        self.game_level = 1
+        # Game level
+        self.game_level = None
 
-        self.show_level_1 = True
-        self.show_level_2 = True
-        self.show_level_3 = True
-        self.show_level_4 = True
-        self.show_level_5 = True
+        # Show game level
+        self.show_level_1 = None
+        self.show_level_2 = None
+        self.show_level_3 = None
+        self.show_level_4 = None
+        self.show_level_5 = None
 
         # Sprite lists
         self.level_1_asteroid_list = None
@@ -126,13 +130,30 @@ class MyGame(arcade.Window):
         self.explode = arcade.load_sound(r"images/explode.mp3")
 
     def setup(self):
+        # Setup player information
         self.player_list = arcade.SpriteList()
         self.player_sprite = ShipSprite(r'images/plane.png', 0.075)
         self.player_sprite.center_x = 400
         self.player_sprite.center_y = 300
         self.player_list.append(self.player_sprite)
 
+        # Set up bullet information
         self.bullet_list = arcade.SpriteList()
+
+        # Screen information
+        self.menu = True
+        self.start = False
+        self.instructions = False
+
+        # Setup game level
+        self.game_level = 1
+
+        # Set up showing level screen
+        self.show_level_1 = True
+        self.show_level_2 = True
+        self.show_level_3 = True
+        self.show_level_4 = True
+        self.show_level_5 = True
 
         # Lives list
         position = 0
@@ -264,12 +285,12 @@ class MyGame(arcade.Window):
 
             # Play button
             arcade.draw_rectangle_outline(400, 200, 250, 50, arcade.color.WHITE)
-            arcade.draw_text("Press SPACE to start", 400, 200, arcade.color.WHITE, self.play_size,
+            arcade.draw_text("Press SPACE to start", 400, 200, arcade.color.WHITE, 20,
                              width=300, align="center", anchor_x="center", anchor_y="center")
 
             # Instructions button
             arcade.draw_rectangle_outline(400, 140, 200, 50, arcade.color.WHITE)
-            arcade.draw_text("Press I for Instructions", 400, 140, arcade.color.WHITE, self.instructions_size,
+            arcade.draw_text("Press I for Instructions", 400, 140, arcade.color.WHITE, 15,
                              width=300, align="center", anchor_x="center", anchor_y="center")
 
         # Game Run
@@ -395,7 +416,7 @@ class MyGame(arcade.Window):
                 self.player_sprite.speed = -5
 
             # Shoot lasers
-            elif key == arcade.key.SPACE:
+            elif key == arcade.key.SPACE and self.player_sprite.lives != 0 and len(self.level_5_asteroid_list) != 0:
                 self.bullet_sprite = Bullets(r'images/lazer.png', 0.25)
                 self.bullet_sprite.center_x = self.player_sprite.center_x
                 self.bullet_sprite.center_y = self.player_sprite.center_y
@@ -419,7 +440,7 @@ class MyGame(arcade.Window):
             self.instructions = False
 
         if (self.player_sprite.lives == 0 or len(self.level_5_asteroid_list) == 0) and key == arcade.key.SPACE:
-            pass
+            self.reset()
 
     def on_key_release(self, key, modifiers):
         # Releasing of arrow keys
@@ -453,9 +474,9 @@ class MyGame(arcade.Window):
                         self.player_sprite.score += 1
                         arcade.play_sound(self.explode)
 
-                    if len(self.level_1_asteroid_list) == 0:
-                        self.game_level = 2
-                        self.player_sprite.respawn()
+                if len(self.level_1_asteroid_list) == 0:
+                    self.game_level = 2
+                    self.player_sprite.center_ship()
 
             elif self.game_level == 2 and not self.show_level_2:
                 self.level_2_asteroid_list.update()
@@ -477,9 +498,9 @@ class MyGame(arcade.Window):
                         self.player_sprite.score += 1
                         arcade.play_sound(self.explode)
 
-                    if len(self.level_2_asteroid_list) == 0:
-                        self.game_level = 3
-                        self.player_sprite.respawn()
+                if len(self.level_2_asteroid_list) == 0:
+                    self.game_level = 3
+                    self.player_sprite.center_ship()
 
             elif self.game_level == 3 and not self.show_level_3:
                 self.level_3_asteroid_list.update()
@@ -501,9 +522,9 @@ class MyGame(arcade.Window):
                         self.player_sprite.score += 1
                         arcade.play_sound(self.explode)
 
-                    if len(self.level_3_asteroid_list) == 0:
-                        self.game_level = 4
-                        self.player_sprite.respawn()
+                if len(self.level_3_asteroid_list) == 0:
+                    self.game_level = 4
+                    self.player_sprite.center_ship()
 
             elif self.game_level == 4 and not self.show_level_4:
                 self.level_4_asteroid_list.update()
@@ -525,9 +546,9 @@ class MyGame(arcade.Window):
                         self.player_sprite.score += 1
                         arcade.play_sound(self.explode)
 
-                    if len(self.level_4_asteroid_list) == 0:
-                        self.game_level = 5
-                        self.player_sprite.respawn()
+                if len(self.level_4_asteroid_list) == 0:
+                    self.game_level = 5
+                    self.player_sprite.center_ship()
 
             elif self.game_level == 5 and not self.show_level_5:
                 self.level_5_asteroid_list.update()
@@ -548,6 +569,10 @@ class MyGame(arcade.Window):
                         asteroid.kill()
                         self.player_sprite.score += 1
                         arcade.play_sound(self.explode)
+
+    def reset(self):
+        self.setup()
+        self.player_sprite.center_ship()
 
 
 def main():
