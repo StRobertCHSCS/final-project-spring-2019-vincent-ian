@@ -328,21 +328,31 @@ class MyGame(arcade.Window):
                 arcade.draw_rectangle_filled(400, 300, 800, 600, arcade.color.BLACK)
                 arcade.draw_text("LEVEL 1", 400, 300, arcade.color.WHITE, 50,
                                  width=300, align="center", anchor_x="center", anchor_y="center")
+                arcade.draw_text("Press SPACE", 400, 150, arcade.color.WHITE, 20,
+                                 width=300, align="center", anchor_x="center", anchor_y="center")
             elif self.show_level_2 and self.game_level == 2:
                 arcade.draw_rectangle_filled(400, 300, 800, 600, arcade.color.BLACK)
                 arcade.draw_text("LEVEL 2", 400, 300, arcade.color.WHITE, 50,
+                                 width=300, align="center", anchor_x="center", anchor_y="center")
+                arcade.draw_text("Press SPACE", 400, 150, arcade.color.WHITE, 20,
                                  width=300, align="center", anchor_x="center", anchor_y="center")
             elif self.show_level_3 and self.game_level == 3:
                 arcade.draw_rectangle_filled(400, 300, 800, 600, arcade.color.BLACK)
                 arcade.draw_text("LEVEL 3", 400, 300, arcade.color.WHITE, 50,
                                  width=300, align="center", anchor_x="center", anchor_y="center")
+                arcade.draw_text("Press SPACE", 400, 150, arcade.color.WHITE, 20,
+                                 width=300, align="center", anchor_x="center", anchor_y="center")
             elif self.show_level_4 and self.game_level == 4:
                 arcade.draw_rectangle_filled(400, 300, 800, 600, arcade.color.BLACK)
                 arcade.draw_text("LEVEL 4", 400, 300, arcade.color.WHITE, 50,
                                  width=300, align="center", anchor_x="center", anchor_y="center")
+                arcade.draw_text("Press SPACE", 400, 150, arcade.color.WHITE, 20,
+                                 width=300, align="center", anchor_x="center", anchor_y="center")
             elif self.show_level_5 and self.game_level == 5:
                 arcade.draw_rectangle_filled(400, 300, 800, 600, arcade.color.BLACK)
                 arcade.draw_text("LEVEL 5", 400, 300, arcade.color.WHITE, 50,
+                                 width=300, align="center", anchor_x="center", anchor_y="center")
+                arcade.draw_text("Press SPACE", 400, 150, arcade.color.WHITE, 20,
                                  width=300, align="center", anchor_x="center", anchor_y="center")
 
         # Game Over Screen
@@ -466,14 +476,16 @@ class MyGame(arcade.Window):
                     self.ship_life_list.pop().kill()
                     arcade.play_sound(self.explode)
 
-                if len(self.bullet_list) > 0:
-                    level_1_asteroid_shot_list = arcade.check_for_collision_with_list(self.bullet_sprite,
+                # Check if any bullets have hit asteroids
+                for bullet in self.bullet_list:
+                    level_1_asteroid_shot_list = arcade.check_for_collision_with_list(bullet,
                                                                                       self.level_1_asteroid_list)
                     for asteroid in level_1_asteroid_shot_list:
                         asteroid.kill()
                         self.player_sprite.score += 1
                         arcade.play_sound(self.explode)
 
+                # Move onto next level if there are no more asteroids
                 if len(self.level_1_asteroid_list) == 0:
                     self.game_level = 2
                     self.player_sprite.center_ship()
@@ -490,14 +502,16 @@ class MyGame(arcade.Window):
                     self.ship_life_list.pop().kill()
                     arcade.play_sound(self.explode)
 
-                if len(self.bullet_list) > 0:
-                    level_2_asteroid_shot_list = arcade.check_for_collision_with_list(self.bullet_sprite,
+                # Check if any bullets have hit asteroids
+                for bullet in self.bullet_list:
+                    level_2_asteroid_shot_list = arcade.check_for_collision_with_list(bullet,
                                                                                       self.level_2_asteroid_list)
                     for asteroid in level_2_asteroid_shot_list:
                         asteroid.kill()
                         self.player_sprite.score += 1
                         arcade.play_sound(self.explode)
 
+                # Move onto next level if there are no more asteroids
                 if len(self.level_2_asteroid_list) == 0:
                     self.game_level = 3
                     self.player_sprite.center_ship()
@@ -514,14 +528,16 @@ class MyGame(arcade.Window):
                     self.ship_life_list.pop().kill()
                     arcade.play_sound(self.explode)
 
-                if len(self.bullet_list) > 0:
-                    level_3_asteroid_shot_list = arcade.check_for_collision_with_list(self.bullet_sprite,
+                # Check if any bullets have hit asteroids
+                for bullet in self.bullet_list:
+                    level_3_asteroid_shot_list = arcade.check_for_collision_with_list(bullet,
                                                                                       self.level_3_asteroid_list)
                     for asteroid in level_3_asteroid_shot_list:
                         asteroid.kill()
                         self.player_sprite.score += 1
                         arcade.play_sound(self.explode)
 
+                # Move onto next level if there are no more asteroids
                 if len(self.level_3_asteroid_list) == 0:
                     self.game_level = 4
                     self.player_sprite.center_ship()
@@ -538,14 +554,16 @@ class MyGame(arcade.Window):
                     self.ship_life_list.pop().kill()
                     arcade.play_sound(self.explode)
 
-                if len(self.bullet_list) > 0:
-                    level_4_asteroid_shot_list = arcade.check_for_collision_with_list(self.bullet_sprite,
+                # Check if any bullets have hit asteroids
+                for bullet in self.bullet_list:
+                    level_4_asteroid_shot_list = arcade.check_for_collision_with_list(bullet,
                                                                                       self.level_4_asteroid_list)
                     for asteroid in level_4_asteroid_shot_list:
                         asteroid.kill()
                         self.player_sprite.score += 1
                         arcade.play_sound(self.explode)
 
+                # Move onto next level if there are no more asteroids
                 if len(self.level_4_asteroid_list) == 0:
                     self.game_level = 5
                     self.player_sprite.center_ship()
@@ -562,8 +580,9 @@ class MyGame(arcade.Window):
                     self.ship_life_list.pop().kill()
                     arcade.play_sound(self.explode)
 
-                if len(self.bullet_list) > 0:
-                    level_5_asteroid_shot_list = arcade.check_for_collision_with_list(self.bullet_sprite,
+                # Check if any bullets have hit asteroids
+                for bullet in self.bullet_list:
+                    level_5_asteroid_shot_list = arcade.check_for_collision_with_list(bullet,
                                                                                       self.level_5_asteroid_list)
                     for asteroid in level_5_asteroid_shot_list:
                         asteroid.kill()
