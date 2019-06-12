@@ -68,7 +68,7 @@ class ShipSprite(arcade.Sprite):
         self.angle = 0
 
 
-class ASTEROID(arcade.Sprite):
+class Asteroid(arcade.Sprite):
     def update(self):
         self.center_x += self.change_x
         self.center_y += self.change_y
@@ -166,112 +166,31 @@ class MyGame(arcade.Window):
             position += life.width
             self.ship_life_list.append(life)
 
-        # Create level 1 sprite list
+        # Create level 1 asteroid list
         self.level_1_asteroid_list = arcade.SpriteList()
+        self.setup_asteroids(self.level_1_asteroid_list, LEVEL_1_ASTEROID_COUNT)
 
-        for i in range(LEVEL_1_ASTEROID_COUNT):
-            asteroid = ASTEROID("images/asteroid.png", 0.1)
-
-            asteroid.center_x = random.randrange(SCREEN_WIDTH)
-            # Reset x coordinate until not inside player spawning area
-            while 300 < asteroid.center_x < 500:
-                asteroid.center_x = random.randrange(SCREEN_WIDTH)
-
-            asteroid.center_y = random.randrange(SCREEN_HEIGHT)
-            # Reset y coordinate until not inside player spawning area
-            while 200 < asteroid.center_y < 400:
-                asteroid.center_y = random.randrange(SCREEN_HEIGHT)
-
-            asteroid.change_x = random.randrange(-5, 5)
-            asteroid.change_y = random.randrange(-5, 5)
-
-            self.level_1_asteroid_list.append(asteroid)
-
-        # Create level 2 sprite list
+        # Create level 2 asteroid list
         self.level_2_asteroid_list = arcade.SpriteList()
+        self.setup_asteroids(self.level_2_asteroid_list, LEVEL_2_ASTEROID_COUNT)
 
-        for i in range(LEVEL_2_ASTEROID_COUNT):
-            asteroid = ASTEROID("images/asteroid.png", 0.1)
-
-            asteroid.center_x = random.randrange(SCREEN_WIDTH)
-            # Reset x coordinate until not inside player spawning area
-            while 300 < asteroid.center_x < 500:
-                asteroid.center_x = random.randrange(SCREEN_WIDTH)
-
-            asteroid.center_y = random.randrange(SCREEN_HEIGHT)
-            # Reset y coordinate until not inside player spawning area
-            while 200 < asteroid.center_y < 400:
-                asteroid.center_y = random.randrange(SCREEN_HEIGHT)
-
-            asteroid.change_x = random.randrange(-5, 5)
-            asteroid.change_y = random.randrange(-5, 5)
-
-            self.level_2_asteroid_list.append(asteroid)
-
-        # Create level 3 sprite list
+        # Create level 3 asteroid list
         self.level_3_asteroid_list = arcade.SpriteList()
-
-        for i in range(LEVEL_3_ASTEROID_COUNT):
-            asteroid = ASTEROID("images/asteroid.png", 0.1)
-
-            asteroid.center_x = random.randrange(SCREEN_WIDTH)
-            # Reset x coordinate until not inside player spawning area
-            while 300 < asteroid.center_x < 500:
-                asteroid.center_x = random.randrange(SCREEN_WIDTH)
-
-            asteroid.center_y = random.randrange(SCREEN_HEIGHT)
-            # Reset y coordinate until not inside player spawning area
-            while 200 < asteroid.center_y < 400:
-                asteroid.center_y = random.randrange(SCREEN_HEIGHT)
-
-            asteroid.change_x = random.randrange(-5, 5)
-            asteroid.change_y = random.randrange(-5, 5)
-
-            self.level_3_asteroid_list.append(asteroid)
+        self.setup_asteroids(self.level_3_asteroid_list, LEVEL_3_ASTEROID_COUNT)
 
         # Create level 4 sprite list
         self.level_4_asteroid_list = arcade.SpriteList()
-
-        for i in range(LEVEL_4_ASTEROID_COUNT):
-            asteroid = ASTEROID("images/asteroid.png", 0.1)
-
-            asteroid.center_x = random.randrange(SCREEN_WIDTH)
-            # Reset x coordinate until not inside player spawning area
-            while 300 < asteroid.center_x < 500:
-                asteroid.center_x = random.randrange(SCREEN_WIDTH)
-
-            asteroid.center_y = random.randrange(SCREEN_HEIGHT)
-            # Reset y coordinate until not inside player spawning area
-            while 200 < asteroid.center_y < 400:
-                asteroid.center_y = random.randrange(SCREEN_HEIGHT)
-
-            asteroid.change_x = random.randrange(-5, 5)
-            asteroid.change_y = random.randrange(-5, 5)
-
-            self.level_4_asteroid_list.append(asteroid)
+        self.setup_asteroids(self.level_4_asteroid_list, LEVEL_4_ASTEROID_COUNT)
 
         # Create level 5 sprite list
         self.level_5_asteroid_list = arcade.SpriteList()
-
-        for i in range(LEVEL_5_ASTEROID_COUNT):
-            asteroid = ASTEROID("images/asteroid.png", 0.1)
-
-            asteroid.center_x = random.randrange(SCREEN_WIDTH)
-            # Reset x coordinate until not inside player spawning area
-            while 300 < asteroid.center_x < 500:
-                asteroid.center_x = random.randrange(SCREEN_WIDTH)
-
-            asteroid.center_y = random.randrange(SCREEN_HEIGHT)
-            # Reset y coordinate until not inside player spawning area
-            while 200 < asteroid.center_y < 400:
-                asteroid.center_y = random.randrange(SCREEN_HEIGHT)
-
-            asteroid.change_x = random.randrange(-5, 5)
-            asteroid.change_y = random.randrange(-5, 5)
-
-            self.level_5_asteroid_list.append(asteroid)
+        self.setup_asteroids(self.level_5_asteroid_list, LEVEL_5_ASTEROID_COUNT)
 
     def on_draw(self):
+        """
+        Draw asteroid shooting game
+        :return: None
+        """
         arcade.start_render()
 
         if self.menu:
@@ -312,10 +231,12 @@ class MyGame(arcade.Window):
             elif self.game_level == 5 and not self.show_level_5:
                 self.level_5_asteroid_list.draw()
 
+            # Show level
             level = f"Level: {self.game_level}"
             arcade.draw_text(level, 10, 75, arcade.color.WHITE, 14,
                              width=300, align="left", anchor_x="left", anchor_y="center")
 
+            # Show score
             score = f"Score: {self.player_sprite.score}"
             arcade.draw_text(score, 10, 55, arcade.color.WHITE, 14,
                              width=300, align="left", anchor_x="left", anchor_y="center")
@@ -399,7 +320,12 @@ class MyGame(arcade.Window):
                              width=300, align="center", anchor_x="center", anchor_y="center")
 
     def on_key_press(self, key, modifiers):
-
+        """
+        User control from keyboard
+        :param key: Key pressed
+        :param modifiers:
+        :return: None
+        """
         # Commands for game
         if self.start:
 
@@ -449,10 +375,17 @@ class MyGame(arcade.Window):
             self.start = False
             self.instructions = False
 
+        # Reset game after player has lost or won
         if (self.player_sprite.lives == 0 or len(self.level_5_asteroid_list) == 0) and key == arcade.key.SPACE:
             self.reset()
 
     def on_key_release(self, key, modifiers):
+        """
+        User control from keyboard
+        :param key: Key released
+        :param modifiers:
+        :return: None
+        """
         # Releasing of arrow keys
         if key == arcade.key.LEFT or key == arcade.key.RIGHT:
             self.player_sprite.change_angle = 0
@@ -460,6 +393,10 @@ class MyGame(arcade.Window):
             self.player_sprite.speed = 0
 
     def update(self, x):
+        """
+        Update the positions of the sprites
+        :return: None
+        """
         if not self.show_level_1 and self.player_sprite.lives != 0:
             self.player_sprite.update()
             self.bullet_list.update()
@@ -467,23 +404,8 @@ class MyGame(arcade.Window):
             if self.game_level == 1 and not self.show_level_1:
                 self.level_1_asteroid_list.update()
 
-                # Check if player has hit asteroid
-                level_1_asteroid_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                                 self.level_1_asteroid_list)
-                for asteroid in level_1_asteroid_hit_list:
-                    asteroid.kill()
-                    self.player_sprite.lives -= 1
-                    self.ship_life_list.pop().kill()
-                    arcade.play_sound(self.explode)
-
-                # Check if any bullets have hit asteroids
-                for bullet in self.bullet_list:
-                    level_1_asteroid_shot_list = arcade.check_for_collision_with_list(bullet,
-                                                                                      self.level_1_asteroid_list)
-                    for asteroid in level_1_asteroid_shot_list:
-                        asteroid.kill()
-                        self.player_sprite.score += 1
-                        arcade.play_sound(self.explode)
+                # Check for any collisions
+                self.collision_detection(self.level_1_asteroid_list, self.bullet_list)
 
                 # Move onto next level if there are no more asteroids
                 if len(self.level_1_asteroid_list) == 0:
@@ -493,23 +415,8 @@ class MyGame(arcade.Window):
             elif self.game_level == 2 and not self.show_level_2:
                 self.level_2_asteroid_list.update()
 
-                # Check if player has hit asteroid
-                level_2_asteroid_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                                 self.level_2_asteroid_list)
-                for asteroid in level_2_asteroid_hit_list:
-                    asteroid.kill()
-                    self.player_sprite.lives -= 1
-                    self.ship_life_list.pop().kill()
-                    arcade.play_sound(self.explode)
-
-                # Check if any bullets have hit asteroids
-                for bullet in self.bullet_list:
-                    level_2_asteroid_shot_list = arcade.check_for_collision_with_list(bullet,
-                                                                                      self.level_2_asteroid_list)
-                    for asteroid in level_2_asteroid_shot_list:
-                        asteroid.kill()
-                        self.player_sprite.score += 1
-                        arcade.play_sound(self.explode)
+                # Check for any collisions
+                self.collision_detection(self.level_2_asteroid_list, self.bullet_list)
 
                 # Move onto next level if there are no more asteroids
                 if len(self.level_2_asteroid_list) == 0:
@@ -519,23 +426,8 @@ class MyGame(arcade.Window):
             elif self.game_level == 3 and not self.show_level_3:
                 self.level_3_asteroid_list.update()
 
-                # Check if player has hit asteroid
-                level_3_asteroid_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                                 self.level_3_asteroid_list)
-                for asteroid in level_3_asteroid_hit_list:
-                    asteroid.kill()
-                    self.player_sprite.lives -= 1
-                    self.ship_life_list.pop().kill()
-                    arcade.play_sound(self.explode)
-
-                # Check if any bullets have hit asteroids
-                for bullet in self.bullet_list:
-                    level_3_asteroid_shot_list = arcade.check_for_collision_with_list(bullet,
-                                                                                      self.level_3_asteroid_list)
-                    for asteroid in level_3_asteroid_shot_list:
-                        asteroid.kill()
-                        self.player_sprite.score += 1
-                        arcade.play_sound(self.explode)
+                # Check for any collisions
+                self.collision_detection(self.level_3_asteroid_list, self.bullet_list)
 
                 # Move onto next level if there are no more asteroids
                 if len(self.level_3_asteroid_list) == 0:
@@ -545,23 +437,8 @@ class MyGame(arcade.Window):
             elif self.game_level == 4 and not self.show_level_4:
                 self.level_4_asteroid_list.update()
 
-                # Check if player has hit asteroid
-                level_4_asteroid_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                                 self.level_4_asteroid_list)
-                for asteroid in level_4_asteroid_hit_list:
-                    asteroid.kill()
-                    self.player_sprite.lives -= 1
-                    self.ship_life_list.pop().kill()
-                    arcade.play_sound(self.explode)
-
-                # Check if any bullets have hit asteroids
-                for bullet in self.bullet_list:
-                    level_4_asteroid_shot_list = arcade.check_for_collision_with_list(bullet,
-                                                                                      self.level_4_asteroid_list)
-                    for asteroid in level_4_asteroid_shot_list:
-                        asteroid.kill()
-                        self.player_sprite.score += 1
-                        arcade.play_sound(self.explode)
+                # Check for any collisions
+                self.collision_detection(self.level_4_asteroid_list, self.bullet_list)
 
                 # Move onto next level if there are no more asteroids
                 if len(self.level_4_asteroid_list) == 0:
@@ -571,25 +448,65 @@ class MyGame(arcade.Window):
             elif self.game_level == 5 and not self.show_level_5:
                 self.level_5_asteroid_list.update()
 
-                # Check if player has hit asteroid
-                level_5_asteroid_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
-                                                                                 self.level_5_asteroid_list)
-                for asteroid in level_5_asteroid_hit_list:
-                    asteroid.kill()
-                    self.player_sprite.lives -= 1
-                    self.ship_life_list.pop().kill()
-                    arcade.play_sound(self.explode)
+                # Check for any collisions
+                self.collision_detection(self.level_5_asteroid_list, self.bullet_list)
 
-                # Check if any bullets have hit asteroids
-                for bullet in self.bullet_list:
-                    level_5_asteroid_shot_list = arcade.check_for_collision_with_list(bullet,
-                                                                                      self.level_5_asteroid_list)
-                    for asteroid in level_5_asteroid_shot_list:
-                        asteroid.kill()
-                        self.player_sprite.score += 1
-                        arcade.play_sound(self.explode)
+    def setup_asteroids(self, asteroid_list, asteroid_count):
+        """
+        Set up the location and speed of the asteroids
+        :param asteroid_list: list of asteroids in a level
+        :param asteroid_count: number of asteroids to be in a level
+        :return: None
+        """
+
+        for i in range(asteroid_count):
+            # Create instance of an asteroid class
+            asteroid = Asteroid("images/asteroid.png", 0.1)
+
+            # Assign asteroid random x and y coordinates
+            asteroid.center_x = random.randrange(SCREEN_WIDTH)
+            asteroid.center_y = random.randrange(SCREEN_HEIGHT)
+
+            # Reset asteroid coordinate until not inside player spawning area
+            while 300 < asteroid.center_x < 500 and 200 < asteroid.center_y < 400:
+                asteroid.center_x = random.randrange(SCREEN_WIDTH)
+                asteroid.center_y = random.randrange(SCREEN_HEIGHT)
+
+            # Assign asteroid an x and y speed
+            asteroid.change_x = random.randrange(-5, 5)
+            asteroid.change_y = random.randrange(-5, 5)
+
+            # Add instance of the asteroid to the asteroid list
+            asteroid_list.append(asteroid)
+
+    def collision_detection(self, asteroid_list, bullet_list):
+        """
+        Check for collisions between player and asteroids, and bullets and asteroids
+        :param asteroid_list: list of asteroids in a level
+        :param bullet_list: list of bullets that are shot
+        :return: None
+        """
+        # Check for collision between player and asteroid
+        hit_list = arcade.check_for_collision_with_list(self.player_sprite, asteroid_list)
+        for asteroid in hit_list:
+            asteroid.kill()
+            self.player_sprite.lives -= 1
+            self.ship_life_list.pop().kill()
+            arcade.play_sound(self.explode)
+
+        # Check for collision between bullets and asteroid
+        for bullet in bullet_list:
+            asteroid_shot_list = arcade.check_for_collision_with_list(bullet, asteroid_list)
+            for asteroid in asteroid_shot_list:
+                asteroid.kill()
+                self.player_sprite.score += 1
+                arcade.play_sound(self.explode)
 
     def reset(self):
+        """
+        Reset game after player has won or lost
+        :return: None
+        """
         self.setup()
         self.player_sprite.center_ship()
 
