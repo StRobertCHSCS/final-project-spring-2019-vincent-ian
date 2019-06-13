@@ -86,6 +86,66 @@ class Asteroid(arcade.Sprite):
             self.center_y = 0
 
 
+class HomeScreen:
+    def __init__(self):
+        self.menu = True
+        self.home_screen_background = arcade.load_texture("images/galaxy.jpg")
+
+    def draw(self):
+        # Start Screen
+        arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
+                                      self.home_screen_background)
+
+        # Title
+        arcade.draw_text("Asteroid Shooter", 400, 500, arcade.color.WHITE, 30,
+                         width=500, align="center", anchor_x="center", anchor_y="center")
+
+        # Play button
+        arcade.draw_rectangle_outline(400, 200, 250, 50, arcade.color.WHITE)
+        arcade.draw_text("Press SPACE to start", 400, 200, arcade.color.WHITE, 20,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
+
+        # Instructions button
+        arcade.draw_rectangle_outline(400, 140, 200, 50, arcade.color.WHITE)
+        arcade.draw_text("Press I for Instructions", 400, 140, arcade.color.WHITE, 15,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
+
+
+class InstructionsScreen:
+    def __init__(self):
+        self.instructions = False
+        self.home_screen_background = arcade.load_texture("images/galaxy.jpg")
+
+    def draw(self):
+        arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
+                                      self.home_screen_background)
+
+        arcade.draw_text("Instructions", 400, 500, arcade.color.WHITE, 30,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
+        arcade.draw_text("Up", 200, 450, arcade.color.WHITE, 30,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
+        arcade.draw_text("Up Arrow", 600, 450, arcade.color.WHITE, 30,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
+        arcade.draw_text("Down", 200, 400, arcade.color.WHITE, 30,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
+        arcade.draw_text("Down Arrow", 600, 400, arcade.color.WHITE, 30,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
+        arcade.draw_text("Turn Left", 200, 350, arcade.color.WHITE, 30,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
+        arcade.draw_text("Left Arrow", 600, 350, arcade.color.WHITE, 30,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
+        arcade.draw_text("Turn Right", 200, 300, arcade.color.WHITE, 30,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
+        arcade.draw_text("Right Arrow", 600, 300, arcade.color.WHITE, 30,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
+        arcade.draw_text("Shoot", 200, 250, arcade.color.WHITE, 30,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
+        arcade.draw_text("Space", 600, 250, arcade.color.WHITE, 30,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
+        arcade.draw_text("Press M to go back", 400, 100, arcade.color.WHITE, 30,
+                         width=300, align="center", anchor_x="center", anchor_y="center")
+
+
 class MyGame(arcade.Window):
 
     def __init__(self):
@@ -101,9 +161,9 @@ class MyGame(arcade.Window):
         self.bullet_sprite = None
 
         # Screen information
-        self.menu = None
+        self.menu = HomeScreen()
+        self.instructions = InstructionsScreen()
         self.start = None
-        self.instructions = None
 
         # Game level
         self.game_level = None
@@ -123,7 +183,6 @@ class MyGame(arcade.Window):
         self.level_5_asteroid_list = None
 
         # Set up background information
-        self.home_screen_background = arcade.load_texture("images/galaxy.jpg")
         self.game_background = arcade.load_texture("images/space.jpg")
         self.game_over_screen = arcade.load_texture("images/game over screen.jpg")
         self.win_screen = arcade.load_texture("images/win screen.jpg")
@@ -144,9 +203,7 @@ class MyGame(arcade.Window):
         self.bullet_list = arcade.SpriteList()
 
         # Screen information
-        self.menu = True
         self.start = False
-        self.instructions = False
 
         # Setup game level
         self.game_level = 1
@@ -196,24 +253,13 @@ class MyGame(arcade.Window):
         """
         arcade.start_render()
 
-        if self.menu:
-            # Start Screen
-            arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
-                                          self.home_screen_background)
+        # Home Screen
+        if self.menu.menu:
+            self.menu.draw()
 
-            # Title
-            arcade.draw_text("Asteroid Shooter", 400, 500, arcade.color.WHITE, 30,
-                             width=500, align="center", anchor_x="center", anchor_y="center")
-
-            # Play button
-            arcade.draw_rectangle_outline(400, 200, 250, 50, arcade.color.WHITE)
-            arcade.draw_text("Press SPACE to start", 400, 200, arcade.color.WHITE, 20,
-                             width=300, align="center", anchor_x="center", anchor_y="center")
-
-            # Instructions button
-            arcade.draw_rectangle_outline(400, 140, 200, 50, arcade.color.WHITE)
-            arcade.draw_text("Press I for Instructions", 400, 140, arcade.color.WHITE, 15,
-                             width=300, align="center", anchor_x="center", anchor_y="center")
+        # Instructions Menu
+        if self.instructions.instructions:
+            self.instructions.draw()
 
         # Game Run
         if self.start:
@@ -292,36 +338,6 @@ class MyGame(arcade.Window):
             arcade.draw_text("Score: " + str(self.player_sprite.score), 400, 120, arcade.color.WHITE, 30,
                              width=300, align="center", anchor_x="center", anchor_y="center")
 
-        # Instructions Menu
-        if self.instructions:
-            arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
-                                          self.home_screen_background)
-
-            arcade.draw_text("Instructions", 400, 500, arcade.color.WHITE, 30,
-                             width=300, align="center", anchor_x="center", anchor_y="center")
-            arcade.draw_text("Up", 200, 450, arcade.color.WHITE, 30,
-                             width=300, align="center", anchor_x="center", anchor_y="center")
-            arcade.draw_text("Up Arrow", 600, 450, arcade.color.WHITE, 30,
-                             width=300, align="center", anchor_x="center", anchor_y="center")
-            arcade.draw_text("Down", 200, 400, arcade.color.WHITE, 30,
-                             width=300, align="center", anchor_x="center", anchor_y="center")
-            arcade.draw_text("Down Arrow", 600, 400, arcade.color.WHITE, 30,
-                             width=300, align="center", anchor_x="center", anchor_y="center")
-            arcade.draw_text("Turn Left", 200, 350, arcade.color.WHITE, 30,
-                             width=300, align="center", anchor_x="center", anchor_y="center")
-            arcade.draw_text("Left Arrow", 600, 350, arcade.color.WHITE, 30,
-                             width=300, align="center", anchor_x="center", anchor_y="center")
-            arcade.draw_text("Turn Right", 200, 300, arcade.color.WHITE, 30,
-                             width=300, align="center", anchor_x="center", anchor_y="center")
-            arcade.draw_text("Right Arrow", 600, 300, arcade.color.WHITE, 30,
-                             width=300, align="center", anchor_x="center", anchor_y="center")
-            arcade.draw_text("Shoot", 200, 250, arcade.color.WHITE, 30,
-                             width=300, align="center", anchor_x="center", anchor_y="center")
-            arcade.draw_text("Space", 600, 250, arcade.color.WHITE, 30,
-                             width=300, align="center", anchor_x="center", anchor_y="center")
-            arcade.draw_text("Press M to go back", 400, 100, arcade.color.WHITE, 30,
-                             width=300, align="center", anchor_x="center", anchor_y="center")
-
     def on_key_press(self, key, modifiers):
         """
         User control from keyboard
@@ -367,16 +383,16 @@ class MyGame(arcade.Window):
         # User navigation with keys
         if key == arcade.key.SPACE and not self.start:
             self.start = True
-            self.menu = False
-            self.instructions = False
-        elif key == arcade.key.I and self.menu:
-            self.instructions = True
-            self.menu = False
+            self.menu.menu = False
+            self.instructions.instructions = False
+        elif key == arcade.key.I and self.menu.menu:
+            self.instructions.instructions = True
+            self.menu.menu = False
             self.start = False
         elif key == arcade.key.M and self.instructions:
-            self.menu = True
+            self.menu.menu = True
             self.start = False
-            self.instructions = False
+            self.instructions.instructions = False
 
         # Reset game after player has lost or won
         if (self.player_sprite.lives == 0 or len(self.level_5_asteroid_list) == 0) and key == arcade.key.SPACE:
@@ -512,6 +528,8 @@ class MyGame(arcade.Window):
         """
         self.setup()
         self.player_sprite.center_ship()
+        self.menu.menu = True
+        self.instructions.instructions = False
 
 
 def main():
