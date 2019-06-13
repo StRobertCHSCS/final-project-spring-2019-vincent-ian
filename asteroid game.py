@@ -1,3 +1,13 @@
+"""
+Name: asteroid game.py
+Purpose:
+To create a 2D space game with the objective to destroy asteroids and beat all the levels.
+
+Authors: Yang.V, Lin.I
+
+Created: 06/13/2019
+"""
+
 import arcade
 import math
 import random
@@ -14,25 +24,60 @@ LEVEL_5_ASTEROID_COUNT = 25
 
 class Bullets(arcade.Sprite):
 
+    """
+    Sprite to model the bullets
+    """
+
     def __init__(self, filename, scale):
+
+        """
+        Initializes bullet values
+
+        :param filename: Name of the file
+        :param scale: Scale of game
+        :return: None
+        """
+
         super().__init__(filename, scale)
         self.speed = 0
         self.center_x = 0
         self.center_y = 0
 
     def update(self):
+
+        """
+        Updates the bullets across the screen
+        :return: None
+        """
+
         self.center_x += self.change_x
         self.center_y += self.change_y
+
+        # Angle matches the direction of the ship movement
         self.angle = math.degrees(math.atan2(self.change_y, self.change_x))
         super().update()
 
+        # Kill the bullet if it leaves the screen
         if self.center_x > 800 or self.center_x < 0 or self.center_y > 600 or self.center_y < 0:
             self.kill()
 
 
 class ShipSprite(arcade.Sprite):
 
+    """
+    Sprite to model the character/ ship
+    """
+
     def __init__(self, filename, scale):
+
+        """
+        Initializes ship values
+
+        :param filename: Name of the file
+        :param scale: Scale of game
+        :return: None
+        """
+
         super().__init__(filename, scale)
 
         self.center_x = 0
@@ -42,6 +87,12 @@ class ShipSprite(arcade.Sprite):
         self.score = 0
 
     def update(self):
+
+        """
+        Updates the user control movements
+        :return: None
+        """
+
         # See if the avatar hit the edge of the screen. If so, change direction
         if self.center_x < 25:
             self.center_x = 25
@@ -69,13 +120,31 @@ class ShipSprite(arcade.Sprite):
 
 
 class Asteroid(arcade.Sprite):
+
+    """
+    Sprite to model the asteroids
+    :return: None
+    """
+
     def __init__(self):
+        """
+        Initializes asteroid values
+        :return: None
+        """
+
         super().__init__("images/asteroid.png", 0.1)
 
     def update(self):
+
+        """
+        Updates the asteroid movements
+        :return: None
+        """
+
         self.center_x += self.change_x
         self.center_y += self.change_y
 
+        # Move asteroids back to the middle if it leaves the screen
         if self.center_x < 0:
             self.center_x = SCREEN_WIDTH
         if self.center_x > SCREEN_WIDTH:
@@ -87,11 +156,27 @@ class Asteroid(arcade.Sprite):
 
 
 class HomeScreen:
+
+    """
+    Models the menu screen
+    """
+
     def __init__(self):
+
+        """
+        Initiate menu values
+        :return: None
+        """
+
         self.menu = True
         self.home_screen_background = arcade.load_texture("images/galaxy.jpg")
 
     def draw(self):
+
+        """
+        Draw the menu items
+        :return: None
+        """
         # Start Screen
         arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
                                       self.home_screen_background)
@@ -112,14 +197,33 @@ class HomeScreen:
 
 
 class InstructionsScreen:
+
+    """
+    Models instructions menu
+    """
+
     def __init__(self):
+
+        """
+        Initiate instructions menu values
+        :return: None
+        """
+
         self.instructions = False
         self.home_screen_background = arcade.load_texture("images/galaxy.jpg")
 
     def draw(self):
+
+        """
+        Draw instruction menu items
+        :return: None
+        """
+
+        # Instructions screen
         arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
                                       self.home_screen_background)
 
+        # All controls
         arcade.draw_text("Instructions", 400, 500, arcade.color.WHITE, 30,
                          width=300, align="center", anchor_x="center", anchor_y="center")
         arcade.draw_text("Up", 200, 450, arcade.color.WHITE, 30,
@@ -148,7 +252,17 @@ class InstructionsScreen:
 
 class MyGame(arcade.Window):
 
+    """
+    Full game mechanics
+    """
+
     def __init__(self):
+
+        """
+        Initiate game values
+        :return: None
+        """
+
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Asteroid Game")
 
         # Player variables
@@ -192,6 +306,12 @@ class MyGame(arcade.Window):
         self.explode = arcade.load_sound(r"images/explode.mp3")
 
     def setup(self):
+
+        """
+        Setup for the game
+        :return: None
+        """
+
         # Setup player information
         self.player_list = arcade.SpriteList()
         self.player_sprite = ShipSprite(r'images/plane.png', 0.075)
@@ -247,10 +367,12 @@ class MyGame(arcade.Window):
         self.setup_asteroids(self.level_5_asteroid_list, LEVEL_5_ASTEROID_COUNT)
 
     def on_draw(self):
+
         """
         Draw asteroid shooting game
         :return: None
         """
+
         arcade.start_render()
 
         # Home Screen
@@ -331,20 +453,25 @@ class MyGame(arcade.Window):
                                           self.game_over_screen)
             arcade.draw_text("Score: " + str(self.player_sprite.score), 400, 100, arcade.color.WHITE, 30,
                              width=300, align="center", anchor_x="center", anchor_y="center")
+            arcade.draw_text("Press Space to Restart", 250, 45, arcade.color.WHITE, 30)
+
         # Win Screen
         elif len(self.level_5_asteroid_list) == 0:
             arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
                                           self.win_screen)
             arcade.draw_text("Score: " + str(self.player_sprite.score), 400, 120, arcade.color.WHITE, 30,
                              width=300, align="center", anchor_x="center", anchor_y="center")
+            arcade.draw_text("Press Space to Restart", 250, 45, arcade.color.WHITE, 30)
 
     def on_key_press(self, key, modifiers):
+
         """
         User control from keyboard
         :param key: Key pressed
-        :param modifiers:
+        :param modifiers: Modifying press
         :return: None
         """
+
         # Commands for game
         if self.start:
 
@@ -389,7 +516,7 @@ class MyGame(arcade.Window):
             self.instructions.instructions = True
             self.menu.menu = False
             self.start = False
-        elif key == arcade.key.M and self.instructions:
+        elif key == arcade.key.M and self.instructions.instructions:
             self.menu.menu = True
             self.start = False
             self.instructions.instructions = False
@@ -399,12 +526,14 @@ class MyGame(arcade.Window):
             self.reset()
 
     def on_key_release(self, key, modifiers):
+
         """
         User control from keyboard
         :param key: Key released
-        :param modifiers:
+        :param modifiers: Modifying release
         :return: None
         """
+
         # Releasing of arrow keys
         if key == arcade.key.LEFT or key == arcade.key.RIGHT:
             self.player_sprite.change_angle = 0
@@ -412,10 +541,12 @@ class MyGame(arcade.Window):
             self.player_sprite.speed = 0
 
     def update(self, x):
+
         """
         Update the positions of the sprites
         :return: None
         """
+
         if not self.show_level_1 and self.player_sprite.lives != 0:
             self.player_sprite.update()
             self.bullet_list.update()
@@ -471,6 +602,7 @@ class MyGame(arcade.Window):
                 self.collision_detection(self.level_5_asteroid_list, self.bullet_list)
 
     def setup_asteroids(self, asteroid_list, asteroid_count):
+
         """
         Set up the location and speed of the asteroids
         :param asteroid_list: list of asteroids in a level
@@ -499,12 +631,14 @@ class MyGame(arcade.Window):
             asteroid_list.append(asteroid)
 
     def collision_detection(self, asteroid_list, bullet_list):
+
         """
         Check for collisions between player and asteroids, and bullets and asteroids
         :param asteroid_list: list of asteroids in a level
         :param bullet_list: list of bullets that are shot
         :return: None
         """
+
         # Check for collision between player and asteroid
         hit_list = arcade.check_for_collision_with_list(self.player_sprite, asteroid_list)
         for asteroid in hit_list:
@@ -522,10 +656,12 @@ class MyGame(arcade.Window):
                 arcade.play_sound(self.explode)
 
     def reset(self):
+
         """
         Reset game after player has won or lost
         :return: None
         """
+
         self.setup()
         self.player_sprite.center_ship()
         self.menu.menu = True
@@ -533,6 +669,12 @@ class MyGame(arcade.Window):
 
 
 def main():
+
+    """
+    Main function to run game
+    :return: None
+    """
+
     window = MyGame()
     window.setup()
     arcade.run()
