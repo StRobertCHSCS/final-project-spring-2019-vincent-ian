@@ -69,6 +69,9 @@ class ShipSprite(arcade.Sprite):
 
 
 class Asteroid(arcade.Sprite):
+    def __init__(self):
+        super().__init__("images/asteroid.png", 0.1)
+
     def update(self):
         self.center_x += self.change_x
         self.center_y += self.change_y
@@ -461,7 +464,7 @@ class MyGame(arcade.Window):
 
         for i in range(asteroid_count):
             # Create instance of an asteroid class
-            asteroid = Asteroid("images/asteroid.png", 0.1)
+            asteroid = Asteroid()
 
             # Assign asteroid random x and y coordinates
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
