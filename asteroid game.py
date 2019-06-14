@@ -498,8 +498,8 @@ class MyGame(arcade.Window):
         # Win Screen
         elif len(self.level_5_asteroid_list) == 0:
             if self.player_sprite.lives == 0:
-                if self.player_high_score > self.player_sprite.score:
-                    self.player_sprite.score = self.player_high_score
+                if self.player_sprite.score > self.player_high_score:
+                    self.player_high_score = self.player_sprite.score
             arcade.draw_texture_rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT,
                                           self.win_screen)
             arcade.draw_text("Score: " + str(self.player_sprite.score), 400, 140, arcade.color.WHITE, 30,
